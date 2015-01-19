@@ -1,1 +1,1 @@
-This is a repository for ISR spectrum code based off of Kudeki and Milla 2011.
+This is a repository for various utilites for use in Incoherent scatter radar processing and simulation. This repository includes various math utilties for use in phased arrary modeling and physical and sensor constants that are used.
