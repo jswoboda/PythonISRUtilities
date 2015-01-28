@@ -106,17 +106,22 @@ def sommerfeldchirpz(func,N,M,dk,Lmax=1,errF=0.1,a=-1.0j,p=1.0,x0=None,exparams=
     if x0 is None:
         x0 = p*np.pi/dk
 
+    #set up simpson rule
     wk = np.ones(N)
     wk[np.mod(k,2)==0] = 2.0/3.0
     wk[np.mod(k,2)==1] = 4.0/3.0
     wk[0] = 1.5/3.0
     wk[-1] = 1.5/3.0
+    # Make A_0 and W_0
     A_0 = np.exp(a*dk*x0)
     M2 = M - np.mod(M,2)
     W_0 = np.exp(a*2.0*p*np.pi/M2)
-    freqm = np.arange(-np.ceil((M-1)/2.0),np.floor((M-1)/2.0))
+    # Make frequency array for phase offset
+    freqm = np.arange(-np.ceil((M-1)/2.0),np.floor((M-1)/2.0)+1)
     Xk = np.zeros(M)*1j
     flag_c = False
+
+
     for irep in range(Lmax):
 
         fk = func(k+N*dk*irep,*exparams)
@@ -124,12 +129,15 @@ def sommerfeldchirpz(func,N,M,dk,Lmax=1,errF=0.1,a=-1.0j,p=1.0,x0=None,exparams=
         Xk = chirpz(fk*wk,A_0,W_0,M)*np.power(W_0,N*dk*irep*freqm)+Xk
 
         Xkdiff = np.sqrt(np.sum(np.power(np.abs(Xk-Xkold),2.0)))
-        Xkpow = np.sqrt(np.sum(np.power(np.abs(Xk))))
+        Xkpow = np.sqrt(np.sum(np.power(np.abs(Xk),2.0)))
+        outrep = irep+1
+        # check for convergence
         if Xkdiff/Xkpow<errF:
             flag_c = True
+
             break
 
-    return (Xk,flag_c,irep+1)
+    return (Xk,flag_c,outrep)
 
 
 def sommerfelderfrep(func,N,omega,b1,Lmax=1,errF=0.1,exparams=()):
@@ -155,16 +163,19 @@ def sommerfelderfrep(func,N,omega,b1,Lmax=1,errF=0.1,exparams=()):
         flag_c - A convergence flag.
         irep - The number of repitiions until convergence. """
     Xk =np.zeros_like(omega)*1j
+    flag_c=False
     for irep in range(Lmax):
 
         Xktemp = sommerfelderf(func,N,omega,b1*irep,b1*(irep+1),exparams)
         Xkdiff = np.sqrt(np.sum(np.power(np.abs(Xktemp),2.0)))
-        Xkpow = np.sqrt(np.sum(np.power(np.abs(Xk+Xktemp))))
+        Xkpow = np.sqrt(np.sum(np.power(np.abs(Xk+Xktemp),2.0)))
         Xk = Xk+Xktemp
+        outrep = irep+1
+        # check for convergence
         if Xkdiff/Xkpow<errF:
             flag_c = True
             break
-    return (Xk,flag_c,irep+1)
+    return (Xk,flag_c,outrep)
 def sommerfelderf(func,N,omega,a,b,exparams=()):
     """ sommerfelderf(func,N,omega,a,b,exparams=())
         by John Swoboda
@@ -187,11 +198,9 @@ def sommerfelderf(func,N,omega,a,b,exparams=()):
 
     An = np.cosh(nvec*h)*np.exp(-np.power(np.sinh(nvec*h),2))
 
-    Xk3 = np.zeros_like(omega)*1.0j
-
     fk = func(kn,*exparams)
     kmat = np.tile(kn[:,np.newaxis],(1,len(omega)))
     omegamat = np.tile(omega[np.newaxis,:],(len(kn),1))
-    Xk3 = np.dot(np.exp(-1j*kmat*omegamat),An*fk);
+    Xk3 = np.dot(An*fk,np.exp(-1j*kmat*omegamat));
 
     return Xk3*h*(b-a)/np.sqrt(np.pi)
