@@ -25,16 +25,22 @@ def getConst(typestr,angles = None):
     out a dictionary with all of the parameters."""
     dirname, filename = os.path.split(os.path.abspath(__file__))
     if typestr.lower() =='risr':
+        arrayfunc = AMISR_Patternadj
         h5filename = os.path.join(dirname,'RISR_PARAMS.h5')
+        arrayfunc = AMISR_Patternadj
     elif typestr.lower() =='pfisr':
         h5filename = os.path.join(dirname,'PFISR_PARAMS.h5')
     h5file = tables.open_file(h5filename)
     kmat = h5file.root.Params.Kmat.read()
     freq = float(h5file.root.Params.Frequency.read())
     P_r = float(h5file.root.Params.Power.read())
+    bandwidth = h5file.getNode('/Tx/Bandwidth').read()
+    ts = h5file.getNode('/Tx/Sampletime').read()
+    systemp = h5file.getNode('/Tx/Systemp').read()
     Ang_off = h5file.root.Params.Angleoffset.read()
     h5file.close()
-
+    Ksens = freq*2*np.pi/v_C_0
+    lamb=Ksens/2.0/np.pi
     az = kmat[:,1]
     el = kmat[:,2]
     ksys = kmat[:,3]
@@ -47,9 +53,10 @@ def getConst(typestr,angles = None):
     else:
         ksysout = None
 
-    sensdict = {'Name':typestr,'Pt':P_r,'k':9.4,'G':10**4.3,'lamb':0.6677,'fc':freq,'fs':50e3,\
-    'taurg':14,'Tsys':120,'BeamWidth':(2,2),'Ksys':ksysout,'BandWidth':22970,\
-    'Angleoffset':Ang_off,'ArrayFunc':AMISR_Patternadj}
+    #'G':10**4.3, This doesn't get used anymore it seems
+    sensdict = {'Name':typestr,'Pt':P_r,'k':Ksens,'lamb':lamb,'fc':freq,'fs':1/ts,\
+    'taurg':14,'Tsys':systemp,'BeamWidth':(2,2),'Ksys':ksysout,'BandWidth':bandwidth,\
+    'Angleoffset':Ang_off,'ArrayFunc':arrayfunc}
     sensdict['t_s'] = 1.0/sensdict['fs']
     return sensdict
 
