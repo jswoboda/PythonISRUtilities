@@ -9,19 +9,29 @@ This module has various math function that are not included in scipy or numpy.
 import numpy as np
 import scipy.fftpack as fftsy
 import scipy.special
-import matplotlib.pylab as plt
-import pdb
-
-def diric(x,M):
-    """ This calculates the dirichete sinc function """
-    if M % 1 != 0 or M <= 0:
+#import matplotlib.pylab as plt
+#import pdb
+try:
+    from numba import jit
+except ImportError:
+    print('Numba not installed, falling back to Numpy')
+"""
+Michael Hirsch
+based on octave-signal v. 1.10 diric.m
+jitted for up to 2x speedup in this case, and demo of Numba 0.17
+"""
+def diric(x,n):
+    n = int(n)
+    if n < 1:
         raise RuntimeError('n must be a strictly positive integer')
+    return _diric(np.asanyarray(x),n)
 
-    y=np.sin(0.5*x)
-    ilog = np.abs(y) < 1e-12
-    nilog = np.logical_not(ilog)
-    y[nilog]=np.sin((M/2)*x[nilog])/(M*y[nilog])
-    y[ilog]=np.sign(np.cos(x[ilog]*((M+1.0)/2.0)))
+@jit
+def _diric(x,n):
+    y = np.sin(n*x/2) / (n*np.sin(x/2))
+    #edge case
+    badx = np.isnan(y)
+    y[badx] = (-1)**((n-1)*x[badx]/(2*np.pi))
     return y
 
 def phys2array(az,el):
