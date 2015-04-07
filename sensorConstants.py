@@ -27,8 +27,9 @@ def getConst(typestr,angles = None):
     if typestr.lower() =='risr':
         arrayfunc = AMISR_Patternadj
         h5filename = os.path.join(dirname,'RISR_PARAMS.h5')
-        arrayfunc = AMISR_Patternadj
+        
     elif typestr.lower() =='pfisr':
+        arrayfunc = AMISR_Patternadj
         h5filename = os.path.join(dirname,'PFISR_PARAMS.h5')
     h5file = tables.open_file(h5filename)
     kmat = h5file.root.Params.Kmat.read()
