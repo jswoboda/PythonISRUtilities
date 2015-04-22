@@ -72,7 +72,7 @@ if __name__ == "__main__":
     angoffP = np.array([15.0,16.0])
 
     beamcodemapP = h5file.getNode('/Setup/BeamcodeMap').read()
-    beamcodemapP = np.array(beamcodemapR)
+    beamcodemapP = np.array(beamcodemapP)
     h5file.close()
     #%% Write PFISR parameters
     h5fileout = tables.open_file('PFISR_PARAMS.h5',mode='w',title='PFISR Parameters')
