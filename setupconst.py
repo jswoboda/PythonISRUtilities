@@ -28,7 +28,8 @@ if __name__ == "__main__":
     # get freq 1 for RISR
     txfreqR = h5file.getNode('/Tx/Frequency').read()[0,0]
     # get cal temp
-    caltempR = h5file.getNode('/Rx/CalTemp').read()
+    caltempR=120
+#    caltempR = h5file.getNode('/Rx/CalTemp').read()
     # get bandwidth
     bandwidthR = h5file.getNode('/Rx/Bandwidth').read()
     # sample time
@@ -63,7 +64,9 @@ if __name__ == "__main__":
     # get freq 1 for RISR
     txfreqP = h5file.getNode('/Tx/Frequency').read()[0,0]
     # get cal temp
-    caltempP = h5file.getNode('/Rx/CalTemp').read()
+    #hard code in because PFISR example is 3x to high
+    caltempP = 120
+#    caltempP = h5file.getNode('/Rx/CalTemp').read()
     # get bandwidth
     bandwidthP = h5file.getNode('/Rx/Bandwidth').read()
     # sample time
