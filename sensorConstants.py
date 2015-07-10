@@ -27,7 +27,7 @@ def getConst(typestr,angles = None):
     if typestr.lower() =='risr':
         arrayfunc = AMISR_Patternadj
         h5filename = os.path.join(dirname,'RISR_PARAMS.h5')
-        
+
     elif typestr.lower() =='pfisr':
         arrayfunc = AMISR_Patternadj
         h5filename = os.path.join(dirname,'PFISR_PARAMS.h5')
@@ -58,7 +58,7 @@ def getConst(typestr,angles = None):
     sensdict = {'Name':typestr,'Pt':P_r,'k':Ksens,'lamb':lamb,'fc':freq,'fs':1/ts,\
     'taurg':14,'Tsys':systemp,'BeamWidth':(2,2),'Ksys':ksysout,'BandWidth':bandwidth,\
     'Angleoffset':Ang_off,'ArrayFunc':arrayfunc}
-    sensdict['t_s'] = 1.0/sensdict['fs']
+    sensdict['t_s'] = ts
     return sensdict
 
 def angles2xy(az,el):
