@@ -34,6 +34,24 @@ def _diric(x,n):
     y[badx] = (-1)**((n-1)*x[badx]/(2*np.pi))
     return y
 
+def angles2xy(az,el):
+    """
+    by John Swoboda
+    This function will take a numpy array of az and elevation angles in degrees and
+    create the x, y locations projected on to the z=0 plane. It is assumed that the
+    elevation angle is mesured from the z=0 plane. The az angle is from x=0 and goes
+    clockwise.
+    Inputs
+    az - A numpy array of azimuth angles in degrees
+    el - A numpy array of elevation angles in degrees"""
+
+    azt = (az)*np.pi/180.0
+    elt = 90-el
+    xout = elt*np.sin(azt)
+    yout = elt*np.cos(azt)
+    return (xout,yout)
+
+
 def phys2array(az,el):
     """ This takes the physical angles of azimuth and elevation in degrees
     and brings them to the array space."""

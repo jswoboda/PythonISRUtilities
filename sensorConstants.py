@@ -12,7 +12,7 @@ import tables
 import numpy as np
 from scipy.interpolate import griddata
 import scipy as sp
-from mathutils import diric
+from mathutils import diric, angles2xy
 from physConstants import v_C_0
 ## Parameters for Sensor
 #AMISR = {'Name':'AMISR','Pt':2e6,'k':9.4,'G':10**4.3,'lamb':0.6677,'fc':449e6,'fs':50e3,\
@@ -47,7 +47,7 @@ def getConst(typestr,angles = None):
     ksys = kmat[:,3]
 
     (xin,yin) = angles2xy(az,el)
-    points = sp.vstack((xin,yin)).transpose()
+    points = sp.column_stack((xin,yin))
     if angles is not None:
         (xvec,yvec) = angles2xy(angles[:,0],angles[:,1])
         ksysout = griddata(points, ksys, (xvec, yvec), method='nearest')
@@ -61,14 +61,6 @@ def getConst(typestr,angles = None):
     sensdict['t_s'] = ts
     return sensdict
 
-def angles2xy(az,el):
-    """ """
-
-    azt = (az)*np.pi/180.0
-    elt = 90-el
-    xout = elt*np.sin(azt)
-    yout = elt*np.cos(azt)
-    return (xout,yout)
 
 
 def phys2array(az,el):

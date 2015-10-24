@@ -9,6 +9,9 @@ This script is here to create the h5 files for the ISR systems
 
 import os
 import numpy as np
+from mathutils import angles2xy
+from scipy.interpolate import griddata
+
 import tables
 import glob
 
@@ -79,6 +82,52 @@ if __name__ == "__main__":
     h5file.close()
     #%% Write PFISR parameters
     h5fileout = tables.open_file('PFISR_PARAMS.h5',mode='w',title='PFISR Parameters')
+    fgroup = h5fileout.create_group('/','Params','Parameters')
+
+    h5fileout.create_array(fgroup, 'Frequency', txfreqP)
+    h5fileout.create_array(fgroup, 'Power', txpowP)
+    h5fileout.create_array(fgroup, 'Kmat', beamcodemapP)
+    h5fileout.create_array(fgroup,'Systemp',caltempP)
+    h5fileout.create_array(fgroup,'Bandwidth',bandwidthP)
+    h5fileout.create_array(fgroup,'Sampletime',sampletimeP)
+    h5fileout.create_array(fgroup,'Angleoffset',angoffP)
+    h5fileout.close()
+
+
+    #%% Set up Sondrestrom parameters
+
+    # get the tx power for Sondrestrom
+    txpowP = 3.5e6
+    # get freq 1 for Sondrestrom
+    txfreqP = 1.290e9
+    # get cal temp
+    #hard code in because Sondrestrom example is 3x to high
+    caltempP = 85.
+#    caltempP = h5file.getNode('/Rx/CalTemp').read()
+    # get bandwidth
+    bandwidthP = 100e3
+    # sample time
+    sampletimeP = 1./100e3
+    # angle offset
+    angoffP = np.array([0.0,0.0])
+
+    azvec = np.linspace(0.,360.,361)
+    elvec = np.linspace(25.,89,65)
+    (azmat,elmat) = np.meshgrid(azvec,elvec)
+
+    (az,el,ksys)=beamcodemapR.transpose()[1:]
+    (xin,yin) = angles2xy(az,el)
+    points = np.column_stack((xin,yin))
+    (xvec,yvec) = angles2xy(azmat.flatten(),elmat.flatten())
+    ksysout = griddata(points, ksys, (xvec, yvec), method='nearest')
+    # size ksys to deal with the different wavelength and antenna gain from Sondrestrom
+    # makes the returns go down by about half
+    ksysout = ksysout*np.power(10.,6./10.)*(.2323/.6677)**2
+    beamcodemapP = np.column_stack((np.arange(azmat.size),azmat.flatten(),elmat.flatten(),ksysout))
+
+
+    #%% Write Sondrestrom parameters
+    h5fileout = tables.open_file('Sondrestrom_PARAMS.h5',mode='w',title='Sondrestrom Parameters')
     fgroup = h5fileout.create_group('/','Params','Parameters')
 
     h5fileout.create_array(fgroup, 'Frequency', txfreqP)
