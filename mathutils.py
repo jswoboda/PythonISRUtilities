@@ -21,6 +21,7 @@ based on octave-signal v. 1.10 diric.m
 jitted for up to 2x speedup in this case, and demo of Numba 0.17
 """
 def diric(x,n):
+    """ """
     n = int(n)
     if n < 1:
         raise RuntimeError('n must be a strictly positive integer')
@@ -33,6 +34,16 @@ def _diric(x,n):
     badx = np.isnan(y)
     y[badx] = (-1)**((n-1)*x[badx]/(2*np.pi))
     return y
+@jit
+def jinc(t):
+    """ """
+    t = np.asanyarray(t)
+
+    outdata = np.ones_like(t)
+    outdata[t==0.] = 0.5
+    outdata[t!=0.0] =scipy.special.jn(1,np.pi*t[t!=0.0])/(2*t[t!=0.0])
+
+    return outdata
 
 def angles2xy(az,el):
     """

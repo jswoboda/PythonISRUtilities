@@ -12,7 +12,7 @@ import tables
 import numpy as np
 from scipy.interpolate import griddata
 import scipy as sp
-from mathutils import diric, angles2xy
+from mathutils import diric, angles2xy, jinc
 from physConstants import v_C_0
 ## Parameters for Sensor
 #AMISR = {'Name':'AMISR','Pt':2e6,'k':9.4,'G':10**4.3,'lamb':0.6677,'fc':449e6,'fs':50e3,\
@@ -74,6 +74,10 @@ def phys2array(az,el):
     return (xout,yout)
 
 def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
+    """
+    AMISR_Patternadj
+    by John Swoboda
+    This function will call """
     d2r= np.pi/180.0
     Azs = np.mod(Az-Angleoffset[0],360.0)
     Az0s = np.mod(Az-Angleoffset[0],360.0)
@@ -95,6 +99,45 @@ def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
     Az0r = Az0s*d2r
 
     return AMISR_Pattern(Azr,Elr,Az0r,El0r)
+def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
+    d2r= np.pi/180.0
+    r = 30.
+    lamb = 1.2e9*v_C_0
+
+    Azs = np.mod(Az-Az0,360.0)
+    Els = El+El0
+    elg90 = Els>90.0
+    Els[elg90] = 180.0-Els[elg90]
+    Elr = (90.0-Els)*d2r
+    return Circ_Ant_Pattern(Elr,r,lamb)
+
+def Circ_Ant_Pattern(EL,r,lamb):
+    """
+    Circ_Ant_Pattern
+    by John Swoboda
+    This function will create an idealized antenna pattern for a circular antenna
+    array. The pattern is not normalized.
+    The antenna is assumed to made of a grid of ideal cross dipole
+    elements. In the array every other column is shifted by 1/2 dy. The
+    parameters are taken from the AMISR spec and the method for calculating
+    the field is derived from a report by Adam R. Wichman.
+    The inputs for the az and el coordinates can be either an array or
+    scalar. If both are arrays they must be the same shape.
+    ###########################################################################
+    Inputs
+
+    EL - An array or scalar holding the elevation coordinates in radians.
+       Also vertical is at zero radians.
+    r - Radius of the antenna in meters
+    lamb - wavelength of radiation in meters
+    ###########################################################################
+    Outputs
+    Patout - The normalized radiation density.
+    ###########################################################################"""
+
+    Patout = (2.*r/lamb)**2* jinc((2.*r/lamb)*np.sin(EL))
+    normfactor = (2.*r/lamb)**2* jinc(0.)
+    return Patout/normfactor
 
 
 
