@@ -139,3 +139,48 @@ if __name__ == "__main__":
     h5fileout.create_array(fgroup,'Angleoffset',angoffP)
     h5fileout.close()
 
+    #%% Set up Millstone parameters
+
+    # get the tx power for Sondrestrom
+    txpowP = 2.5e6
+    # get freq 1 for Sondrestrom
+    txfreqP = 4.4e8
+    # get cal temp
+    #hard code in because Sondrestrom example is 3x to high
+    caltempP = 120.
+#    caltempP = h5file.getNode('/Rx/CalTemp').read()
+    # get bandwidth
+    bandwidthP = 50e3
+    # sample time
+    sampletimeP = 1./50e3
+    # angle offset
+    angoffP = np.array([0.0,0.0])
+
+    azvec = np.linspace(0.,360.,361)
+    elvec = np.linspace(25.,89,65)
+    (azmat,elmat) = np.meshgrid(azvec,elvec)
+
+    (az,el,ksys)=beamcodemapR.transpose()[1:]
+    (xin,yin) = angles2xy(az,el)
+    points = np.column_stack((xin,yin))
+    (xvec,yvec) = angles2xy(azmat.flatten(),elmat.flatten())
+    ksysout = griddata(points, ksys, (xvec, yvec), method='nearest')
+    # size ksys to deal with the different wavelength and antenna gain from Sondrestrom
+    # makes the returns go down by about half
+    ksysout = ksysout*np.power(10.,6./10.)*(.2323/.6677)**2
+    beamcodemapP = np.column_stack((np.arange(azmat.size),azmat.flatten(),elmat.flatten(),ksysout))
+
+
+    #%% Write Millstone parameters
+    h5fileout = tables.open_file('Millstone_PARAMS.h5',mode='w',title='Millstone Parameters')
+    fgroup = h5fileout.create_group('/','Params','Parameters')
+
+    h5fileout.create_array(fgroup, 'Frequency', txfreqP)
+    h5fileout.create_array(fgroup, 'Power', txpowP)
+    h5fileout.create_array(fgroup, 'Kmat', beamcodemapP)
+    h5fileout.create_array(fgroup,'Systemp',caltempP)
+    h5fileout.create_array(fgroup,'Bandwidth',bandwidthP)
+    h5fileout.create_array(fgroup,'Sampletime',sampletimeP)
+    h5fileout.create_array(fgroup,'Angleoffset',angoffP)
+    h5fileout.close()
+
