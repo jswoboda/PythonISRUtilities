@@ -31,6 +31,12 @@ def getConst(typestr,angles = None):
     elif typestr.lower() =='pfisr':
         arrayfunc = AMISR_Patternadj
         h5filename = os.path.join(dirname,'PFISR_PARAMS.h5')
+    elif typestr.lower() =='millstone':
+        arrayfunc = Millstone_Pattern
+        h5filename = os.path.join(dirname,'Millstone_PARAMS.h5')
+    elif typestr.lower() =='sondrestrom':
+        arrayfunc = Sond_Pattern
+        h5filename = os.path.join(dirname,'Sondrestrom_PARAMS.h5')
     h5file = tables.open_file(h5filename)
     kmat = h5file.root.Params.Kmat.read()
     freq = float(h5file.root.Params.Frequency.read())
@@ -103,6 +109,18 @@ def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
     d2r= np.pi/180.0
     r = 30.
     lamb = 1.2e9*v_C_0
+
+    Azs = np.mod(Az-Az0,360.0)
+    Els = El+El0
+    elg90 = Els>90.0
+    Els[elg90] = 180.0-Els[elg90]
+    Elr = (90.0-Els)*d2r
+    return Circ_Ant_Pattern(Elr,r,lamb)
+
+def Millstone_Pattern(Az,El,Az0,El0,Angleoffset):
+    d2r= np.pi/180.0
+    r = 34.
+    lamb = 4.4e8*v_C_0
 
     Azs = np.mod(Az-Az0,360.0)
     Els = El+El0
