@@ -165,9 +165,9 @@ if __name__ == "__main__":
     points = np.column_stack((xin,yin))
     (xvec,yvec) = angles2xy(azmat.flatten(),elmat.flatten())
     ksysout = griddata(points, ksys, (xvec, yvec), method='nearest')
-    # size ksys to deal with the different wavelength and antenna gain from Sondrestrom
-    # makes the returns go down by about half
-    ksysout = ksysout*np.power(10.,6./10.)*(.2323/.6677)**2
+    # size ksys to deal with the different wavelength and antenna gain from Millstone
+    # makes the returns go up by 2.5 dB
+    ksysout = ksysout*np.power(10.,2.5/10.)
     beamcodemapP = np.column_stack((np.arange(azmat.size),azmat.flatten(),elmat.flatten(),ksysout))
 
 
