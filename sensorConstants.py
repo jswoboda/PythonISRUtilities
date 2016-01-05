@@ -108,7 +108,7 @@ def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
 def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
     d2r= np.pi/180.0
     r = 30.
-    lamb = 1.2e9*v_C_0
+    lamb = v_C_0/1.2e9
 
     Azs = np.mod(Az-Az0,360.0)
     Els = El+El0
@@ -120,7 +120,7 @@ def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
 def Millstone_Pattern(Az,El,Az0,El0,Angleoffset):
     d2r= np.pi/180.0
     r = 34.
-    lamb = 4.4e8*v_C_0
+    lamb = v_C_0/4.4e8
 
     Azs = np.mod(Az-Az0,360.0)
     Els = El+El0
