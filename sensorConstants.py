@@ -121,8 +121,6 @@ def Millstone_Pattern(Az,El,Az0,El0,Angleoffset):
     d2r= np.pi/180.0
     r = 34.
     lamb = v_C_0/4.4e8
-
-
     Azadj,Eladj = rotcoords(Az,El,-Az0,El0-90.)
     Elr = (90.0-Eladj)*d2r
     return Circ_Ant_Pattern(Elr,r,lamb)
