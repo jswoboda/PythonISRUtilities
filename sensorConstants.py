@@ -12,7 +12,7 @@ import tables
 import numpy as np
 from scipy.interpolate import griddata
 import scipy as sp
-from mathutils import diric, angles2xy, jinc
+from mathutils import diric, angles2xy, jinc, rotcoords
 from physConstants import v_C_0
 ## Parameters for Sensor
 #AMISR = {'Name':'AMISR','Pt':2e6,'k':9.4,'G':10**4.3,'lamb':0.6677,'fc':449e6,'fs':50e3,\
@@ -106,15 +106,15 @@ def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
 
     return AMISR_Pattern(Azr,Elr,Az0r,El0r)
 def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
+
+
+
     d2r= np.pi/180.0
     r = 30.
     lamb = v_C_0/1.2e9
 
-    Azs = np.mod(Az-Az0,360.0)
-    Els = El+El0
-    elg90 = Els>90.0
-    Els[elg90] = 180.0-Els[elg90]
-    Elr = (90.0-Els)*d2r
+    Azadj,Eladj = rotcoords(Az,El,-Az0,El0-90.)
+    Elr = (90.0-Eladj)*d2r
     return Circ_Ant_Pattern(Elr,r,lamb)
 
 def Millstone_Pattern(Az,El,Az0,El0,Angleoffset):
@@ -122,11 +122,9 @@ def Millstone_Pattern(Az,El,Az0,El0,Angleoffset):
     r = 34.
     lamb = v_C_0/4.4e8
 
-    Azs = np.mod(Az-Az0,360.0)
-    Els = El+El0
-    elg90 = Els>90.0
-    Els[elg90] = 180.0-Els[elg90]
-    Elr = (90.0-Els)*d2r
+
+    Azadj,Eladj = rotcoords(Az,El,-Az0,El0-90.)
+    Elr = (90.0-Eladj)*d2r
     return Circ_Ant_Pattern(Elr,r,lamb)
 
 def Circ_Ant_Pattern(EL,r,lamb):
@@ -153,7 +151,7 @@ def Circ_Ant_Pattern(EL,r,lamb):
     Patout - The normalized radiation density.
     ###########################################################################"""
 
-    Patout = (2.*r/lamb)**2* jinc((2.*r/lamb)*np.sin(EL))
+    Patout = (2.*r/lamb)**2* np.abs(jinc((2.*r/lamb)*np.sin(EL)))
     normfactor = (2.*r/lamb)**2* jinc(0.)
     return Patout/normfactor
 

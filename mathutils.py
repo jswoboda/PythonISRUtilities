@@ -73,6 +73,34 @@ def phys2array(az,el):
     yout = elt*np.cos(azt)
     return (xout,yout)
 
+def array2cart(Az,El):
+    d2r = np.pi/180.
+    X = np.cos(Az*d2r)*np.cos(El*d2r)
+    Y = np.sin(Az*d2r)*np.cos(El*d2r)
+    Z = np.sin(El*d2r)
+    return (X,Y,Z)
+def cart2array(X,Y,Z):
+    r2d = 180./np.pi
+    Az = np.arctan2(Y,X)*r2d
+    El = np.arcsin(Z)*r2d
+    return (Az,El)
+def rotmatrix(Az_0,El_0):
+    """ First rotate about the z axis and then rotate about the new y axis
+    http://www.agi.com/resources/help/online/stk/11.0/index.htm#comm/CommRadar03-03.htm"""
+    d2r = np.pi/180.
+    Az_0= Az_0*d2r
+    El_0 = El_0*d2r
+    R_Az = np.array([[np.cos(Az_0),-np.sin(Az_0),0.],[np.sin(Az_0),np.cos(Az_0),0.],[0.,0.,1.]])
+    R_El = np.array([[np.cos(El_0),0.,np.sin(El_0)],[0.,1.,0.],[-np.sin(El_0),0.,np.cos(El_0)]])
+    return R_El.dot(R_Az)
+
+def rotcoords(Az,El,Az_0,El_0):
+    cartcords = array2cart(Az,El)
+    cartmat = np.column_stack(cartcords).transpose()
+    rotmat = rotmatrix(Az_0,El_0)
+
+    rotcart = np.dot(rotmat,cartmat)
+    return cart2array(rotcart[0],rotcart[1],rotcart[2])
 def chirpz(Xn,A,W,M):
     """ chirpz(Xn,A,W,M)
         by John Swoboda
