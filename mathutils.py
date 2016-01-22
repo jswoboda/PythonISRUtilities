@@ -29,7 +29,7 @@ def diric(x,n):
 
 @jit
 def _diric(x,n):
-    y = np.sin(n*x/2) / (n*np.sin(x/2))
+    y = np.divide(np.sin(n*x/2),(n*np.sin(x/2)))
     #edge case
     badx = np.isnan(y)
     y[badx] = (-1)**((n-1)*x[badx]/(2*np.pi))
