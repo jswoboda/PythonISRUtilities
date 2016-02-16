@@ -44,6 +44,8 @@ if __name__ == "__main__":
     beamcodemapR = np.array(beamcodemapR)
 
     h5file.close()
+    posel = np.where(beamcodemapR[:,2]>0)
+    beamcodemapR = beamcodemapR[posel]
     #%% Write RISR parameters
     h5fileout = tables.open_file('RISR_PARAMS.h5',mode='w',title='RISR Parameters')
     fgroup = h5fileout.create_group('/','Params','Parameters')
@@ -80,6 +82,8 @@ if __name__ == "__main__":
     beamcodemapP = h5file.getNode('/Setup/BeamcodeMap').read()
     beamcodemapP = np.array(beamcodemapP)
     h5file.close()
+    posel = np.where(beamcodemapP[:,2]>0)
+    beamcodemapP = beamcodemapP[posel]
     #%% Write PFISR parameters
     h5fileout = tables.open_file('PFISR_PARAMS.h5',mode='w',title='PFISR Parameters')
     fgroup = h5fileout.create_group('/','Params','Parameters')
