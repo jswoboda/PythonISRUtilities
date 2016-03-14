@@ -88,12 +88,19 @@ def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
     Azs = np.mod(Az-Angleoffset[0],360.0)
     Az0s = np.mod(Az0-Angleoffset[0],360.0)
 
-    Els = El+Angleoffset[1]
+    posoff =np.logical_and( Azs>90, Azs<270)
+    negoff = np.logical_not(posoff)
+    Els=El.copy()
+    Els[posoff] = El[posoff]+Angleoffset[1]
+    Els[negoff] = El[negoff]-Angleoffset[1]
     elg90 = Els>90.0
     Els[elg90] = 180.0-Els[elg90]
     Azs[elg90] = np.mod(Azs[elg90]+180.0,360.0)
-
-    El0s = El0+Angleoffset[1]
+    
+    if Az0s>90 and Az0s<270:
+        El0s = El0+Angleoffset[1]
+    else:
+        El0s = El0-Angleoffset[1]
     if El0s>90.0:
         El0s= 180.0-El0s
         Az0s = np.mod(Az0+180.0,360.0)
