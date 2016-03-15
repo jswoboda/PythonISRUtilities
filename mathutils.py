@@ -74,19 +74,43 @@ def phys2array(az,el):
     return (xout,yout)
 
 def array2cart(Az,El):
+    """ This function will turn azimuth and elevation angles to X, Y and Z coordinates
+        assuming a unit sphere.
+        Inputs
+            Az - An array of azimuth angles in degrees.
+            El - An array of elavation angles in degrees.
+        Outputs
+            X,Y,Z- Arrays of cartisian coordinates
+        """
     d2r = np.pi/180.
     X = np.cos(Az*d2r)*np.cos(El*d2r)
     Y = np.sin(Az*d2r)*np.cos(El*d2r)
     Z = np.sin(El*d2r)
     return (X,Y,Z)
 def cart2array(X,Y,Z):
+    """ This function will turn the X, Y and Z coordinate to azimuth and elevation angles 
+        assuming a unit sphere.
+        Inputs
+            X,Y,Z- Arrays of cartisian coordinates
+        Outputs
+            Az - An array of azimuth angles in degrees.
+            El - An array of elavation angles in degrees.
+        """
     r2d = 180./np.pi
     Az = np.arctan2(Y,X)*r2d
     El = np.arcsin(Z)*r2d
     return (Az,El)
 def rotmatrix(Az_0,El_0):
-    """ First rotate about the z axis and then rotate about the new y axis
-    http://www.agi.com/resources/help/online/stk/11.0/index.htm#comm/CommRadar03-03.htm"""
+    """ 
+        This creates a rotation matrix for the rotcoords function. First rotate 
+        about the z axis and then rotate about the new y axis
+        http://www.agi.com/resources/help/online/stk/11.0/index.htm#comm/CommRadar03-03.htm
+        Inputs
+            Az_0 - The azimuth rotation angle in degrees. 
+            El_0 - The elevation rotation angle in degrees.
+        Output
+            rotmat - A 3x3 rotation matrix
+    """
     d2r = np.pi/180.
     Az_0= Az_0*d2r
     El_0 = El_0*d2r
@@ -95,6 +119,18 @@ def rotmatrix(Az_0,El_0):
     return R_El.dot(R_Az)
 
 def rotcoords(Az,El,Az_0,El_0):
+    """ This function will rotate the Az and Elevation cordinates given offset
+        angles. This will use a rotation matrix after the angles have been 
+        changed to Cartisian coordinates assuming a unit sphere.
+        Inputs
+            Az - An array of azimuth angles in degrees.
+            El - An array of elavation angles in degrees.
+            Az_0 - The azimuth rotation angle in degrees. 
+            El_0 - The elevation rotation angle in degrees.
+        Outputs
+            Az_out - An array of rotated azimuth angles in degrees.
+            El - An array of rotated azimuth angles in degrees.
+            """
     cartcords = array2cart(Az,El)
     cartmat = np.column_stack(cartcords).transpose()
     rotmat = rotmatrix(Az_0,El_0)

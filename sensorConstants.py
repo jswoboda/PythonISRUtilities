@@ -83,37 +83,47 @@ def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
     """
     AMISR_Patternadj
     by John Swoboda
-    This function will call """
+    This function will call AMISR beam patern function after it rotates the coordinates
+    given the offset of the phased array.
+    Inputs
+            Az - An array of azimuth angles in degrees.
+            El - An array of elavation angles in degrees.
+            Az_0 - The azimuth pointing angle in degrees. 
+            El_0 - The elevation pointing angle in degrees.
+            Angleoffset - A 2 element list hold the offset of the face of the array
+            from north
+    Outputs 
+        Beam_Pattern - The relative beam pattern from the azimuth points 
+    """
     d2r= np.pi/180.0
-    Azs = np.mod(Az-Angleoffset[0],360.0)
-    Az0s = np.mod(Az0-Angleoffset[0],360.0)
 
-    posoff =np.logical_and( Azs>90, Azs<270)
-    negoff = np.logical_not(posoff)
-    Els=El.copy()
-    Els[posoff] = El[posoff]+Angleoffset[1]
-    Els[negoff] = El[negoff]-Angleoffset[1]
-    elg90 = Els>90.0
-    Els[elg90] = 180.0-Els[elg90]
-    Azs[elg90] = np.mod(Azs[elg90]+180.0,360.0)
+    Azs,Els = rotcoords(Az,El,-Angleoffset[0],Angleoffset[1])
+    eps = np.finfo(Az.dtype).eps
+    Azs[np.abs(Azs)<10*eps]=0.
+    Azs = np.mod(Azs,360.)
     
-    if Az0s>90 and Az0s<270:
-        El0s = El0+Angleoffset[1]
-    else:
-        El0s = El0-Angleoffset[1]
-    if El0s>90.0:
-        El0s= 180.0-El0s
-        Az0s = np.mod(Az0+180.0,360.0)
-
-
+    Az0s,El0s = rotcoords(Az0,El0,-Angleoffset[0],Angleoffset[1])
     Elr = (90.0-Els)*d2r
     El0r = (90.-El0s)*d2r
     Azr = Azs*d2r
     Az0r = Az0s*d2r
-
     return AMISR_Pattern(Azr,Elr,Az0r,El0r)
 def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
-
+    """
+    Sond_Pattern
+    by John Swoboda
+    This function will call circular antenna beam patern function after it 
+    rotates the coordinates given the pointing direction.
+    Inputs
+            Az - An array of azimuth angles in degrees.
+            El - An array of elavation angles in degrees.
+            Az_0 - The azimuth pointing angle in degrees. 
+            El_0 - The elevation pointing angle in degrees.
+            Angleoffset - A 2 element list hold the offset of the face of the array
+            from north
+    Outputs 
+        Beam_Pattern - The relative beam pattern from the azimuth points 
+    """
 
 
     d2r= np.pi/180.0
@@ -125,6 +135,21 @@ def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
     return Circ_Ant_Pattern(Elr,r,lamb)
 
 def Millstone_Pattern(Az,El,Az0,El0,Angleoffset):
+    """
+    Millstone_Pattern
+    by John Swoboda
+    This function will call circular antenna beam patern function after it 
+    rotates the coordinates given the pointing direction.
+    Inputs
+            Az - An array of azimuth angles in degrees.
+            El - An array of elavation angles in degrees.
+            Az_0 - The azimuth pointing angle in degrees. 
+            El_0 - The elevation pointing angle in degrees.
+            Angleoffset - A 2 element list hold the offset of the face of the array
+            from north (not used)
+    Outputs 
+        Beam_Pattern - The relative beam pattern from the azimuth points 
+    """
     d2r= np.pi/180.0
     r = 34.
     lamb = v_C_0/4.4e8
