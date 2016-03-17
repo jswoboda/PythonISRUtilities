@@ -182,6 +182,7 @@ def Circ_Ant_Pattern(EL,r,lamb):
     ###########################################################################"""
 
     Patout = (2.*r/lamb)**2* np.abs(jinc((2.*r/lamb)*np.sin(EL)))
+    Patout[EL<0]=0
     normfactor = (2.*r/lamb)**2* jinc(0.)
     return Patout/normfactor
 
@@ -219,6 +220,8 @@ def AMISR_Pattern(AZ,EL,Az0,El0):
     dy=0.4958 # y spacing[m]
     # element pattern from an ideal cross dipole array.
     elementpower=(1.0/2.0)*(1.0+(np.cos(EL))**2)
+    # Use this to kill back lobes.
+    elementpower[EL<0] = 0.
 #    pdb.set_trace()
     m=8.0;# number of pannels in the x direction
     mtot = 8.0*m;# number of elements times panels in x direction
