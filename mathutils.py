@@ -265,17 +265,20 @@ def sommerfelderfrep(func,N,omega,b1,Lmax=1,errF=0.1,exparams=()):
         Xk - The integrated data that is the same length as omega.
         flag_c - A convergence flag.
         irep - The number of repitiions until convergence. """
-    Xk =np.zeros_like(omega)*1j
+    Xk =np.zeros_like(omega)*(1+1j)
     flag_c=False
     for irep in range(Lmax):
 
         Xktemp = sommerfelderf(func,N,omega,b1*irep,b1*(irep+1),exparams)
-        Xkdiff = np.sqrt(np.sum(np.power(np.abs(Xktemp),2.0)))
-        Xkpow = np.sqrt(np.sum(np.power(np.abs(Xk+Xktemp),2.0)))
+        Xkdiff = Xktemp.real**2+Xktemp.imag**2
         Xk = Xk+Xktemp
+        Xkpow = Xk.real**2 +Xk.imag**2
+#        Xkdiff = np.sqrt(np.sum(np.power(np.abs(Xktemp),2.0)))
+#        Xkpow = np.sqrt(np.sum(np.power(np.abs(Xk+Xktemp),2.0)))
+#        Xk = Xk+Xktemp
         outrep = irep+1
         # check for convergence
-        if Xkdiff/Xkpow<errF:
+        if np.sum(Xkdiff/Xkpow)<errF:
             flag_c = True
             break
     return (Xk,flag_c,outrep)
