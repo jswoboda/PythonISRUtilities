@@ -280,6 +280,7 @@ def sommerfelderfrep(func,N,omega,b1,Lmax=1,errF=0.1,exparams=()):
         # check for convergence
         if np.sum(Xkdiff/Xkpow)<errF:
             flag_c = True
+            outrep = irep
             break
     return (Xk,flag_c,outrep)
 def sommerfelderf(func,N,omega,a,b,exparams=()):
