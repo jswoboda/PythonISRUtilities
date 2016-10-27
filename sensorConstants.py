@@ -91,19 +91,19 @@ def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
             Az_0 - The azimuth pointing angle in degrees. 
             El_0 - The elevation pointing angle in degrees.
             Angleoffset - A 2 element list hold the offset of the face of the array
-            from north
+            from northfff
     Outputs 
         Beam_Pattern - The relative beam pattern from the azimuth points 
     """
     d2r= np.pi/180.0
 
-    Azs,Els = rotcoords(Az,El,-Angleoffset[0],Angleoffset[1])
+    Azs,Els = rotcoords(Az,El,-Angleoffset[0],-Angleoffset[1])
     eps = np.finfo(Az.dtype).eps
-    Azs[np.abs(Azs)<10*eps]=0.
+    Azs[np.abs(Azs)<15*eps]=0.
     Azs = np.mod(Azs,360.)
     
-    Az0s,El0s = rotcoords(Az0,El0,-Angleoffset[0],Angleoffset[1])
-    Elr = (90.0-Els)*d2r
+    Az0s,El0s = rotcoords(Az0,El0,-Angleoffset[0],-Angleoffset[1])
+    Elr = (90.-Els)*d2r
     El0r = (90.-El0s)*d2r
     Azr = Azs*d2r
     Az0r = Az0s*d2r
