@@ -41,9 +41,9 @@ def getConst(typestr,angles = None):
     kmat = h5file.root.Params.Kmat.read()
     freq = float(h5file.root.Params.Frequency.read())
     P_r = float(h5file.root.Params.Power.read())
-    bandwidth = h5file.getNode('/Params/Bandwidth').read()
-    ts = h5file.getNode('/Params/Sampletime').read()
-    systemp = h5file.getNode('/Params/Systemp').read()
+    bandwidth = h5file.get_node('/Params/Bandwidth').read()
+    ts = h5file.get_node('/Params/Sampletime').read()
+    systemp = h5file.get_node('/Params/Systemp').read()
     Ang_off = h5file.root.Params.Angleoffset.read()
     h5file.close()
     Ksens = freq*2*np.pi/v_C_0
