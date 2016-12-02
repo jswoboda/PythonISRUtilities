@@ -5,15 +5,14 @@ Created on Tue Nov 26 12:42:11 2013
 @author: John Swoboda
 These are system constants for various sensors
 """
-import pdb
-import os
-
+from . import Path
 import tables
 import numpy as np
 from scipy.interpolate import griddata
 import scipy as sp
-from mathutils import diric, angles2xy, jinc, rotcoords
-from physConstants import v_C_0
+#
+from .mathutils import diric, angles2xy, jinc, rotcoords
+from .physConstants import v_C_0
 ## Parameters for Sensor
 #AMISR = {'Name':'AMISR','Pt':2e6,'k':9.4,'G':10**4.3,'lamb':0.6677,'fc':449e6,'fs':50e3,\
 #    'taurg':14,'Tsys':120,'BeamWidth':(2,2)}
@@ -23,29 +22,29 @@ from physConstants import v_C_0
 def getConst(typestr,angles = None):
     """Get the constants associated with a specific radar system. This will fill
     out a dictionary with all of the parameters."""
-    dirname, filename = os.path.split(os.path.abspath(__file__))
+    dirname = Path(__file__).expanduser().parent
     if typestr.lower() =='risr' or typestr.lower() =='risr-n':
         arrayfunc = AMISR_Patternadj
-        h5filename = os.path.join(dirname,'RISR_PARAMS.h5')
-
+        h5filename = dirname/'RISR_PARAMS.h5'
     elif typestr.lower() =='pfisr':
         arrayfunc = AMISR_Patternadj
-        h5filename = os.path.join(dirname,'PFISR_PARAMS.h5')
+        h5filename = dirname/'PFISR_PARAMS.h5'
     elif typestr.lower() =='millstone':
         arrayfunc = Millstone_Pattern
-        h5filename = os.path.join(dirname,'Millstone_PARAMS.h5')
+        h5filename = dirname/'Millstone_PARAMS.h5'
     elif typestr.lower() =='sondrestrom':
         arrayfunc = Sond_Pattern
-        h5filename = os.path.join(dirname,'Sondrestrom_PARAMS.h5')
-    h5file = tables.open_file(h5filename)
-    kmat = h5file.root.Params.Kmat.read()
-    freq = float(h5file.root.Params.Frequency.read())
-    P_r = float(h5file.root.Params.Power.read())
-    bandwidth = h5file.get_node('/Params/Bandwidth').read()
-    ts = h5file.get_node('/Params/Sampletime').read()
-    systemp = h5file.get_node('/Params/Systemp').read()
-    Ang_off = h5file.root.Params.Angleoffset.read()
-    h5file.close()
+        h5filename = dirname/'Sondrestrom_PARAMS.h5'
+
+    with tables.open_file(str(h5filename)) as f:
+        kmat = f.root.Params.Kmat.read()
+        freq = float(f.root.Params.Frequency.read())
+        P_r = float(f.root.Params.Power.read())
+        bandwidth = f.get_node('/Params/Bandwidth').read()
+        ts = f.get_node('/Params/Sampletime').read()
+        systemp = f.get_node('/Params/Systemp').read()
+        Ang_off = f.root.Params.Angleoffset.read()
+
     Ksens = freq*2*np.pi/v_C_0
     lamb=Ksens/2.0/np.pi
     az = kmat[:,1]
@@ -88,12 +87,12 @@ def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
     Inputs
             Az - An array of azimuth angles in degrees.
             El - An array of elavation angles in degrees.
-            Az_0 - The azimuth pointing angle in degrees. 
+            Az_0 - The azimuth pointing angle in degrees.
             El_0 - The elevation pointing angle in degrees.
             Angleoffset - A 2 element list hold the offset of the face of the array
             from northfff
-    Outputs 
-        Beam_Pattern - The relative beam pattern from the azimuth points 
+    Outputs
+        Beam_Pattern - The relative beam pattern from the azimuth points
     """
     d2r= np.pi/180.0
 
@@ -101,28 +100,29 @@ def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
     eps = np.finfo(Az.dtype).eps
     Azs[np.abs(Azs)<15*eps]=0.
     Azs = np.mod(Azs,360.)
-    
+
     Az0s,El0s = rotcoords(Az0,El0,-Angleoffset[0],-Angleoffset[1])
     Elr = (90.-Els)*d2r
     El0r = (90.-El0s)*d2r
     Azr = Azs*d2r
     Az0r = Az0s*d2r
     return AMISR_Pattern(Azr,Elr,Az0r,El0r)
+
 def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
     """
     Sond_Pattern
     by John Swoboda
-    This function will call circular antenna beam patern function after it 
+    This function will call circular antenna beam patern function after it
     rotates the coordinates given the pointing direction.
     Inputs
             Az - An array of azimuth angles in degrees.
             El - An array of elavation angles in degrees.
-            Az_0 - The azimuth pointing angle in degrees. 
+            Az_0 - The azimuth pointing angle in degrees.
             El_0 - The elevation pointing angle in degrees.
             Angleoffset - A 2 element list hold the offset of the face of the array
             from north
-    Outputs 
-        Beam_Pattern - The relative beam pattern from the azimuth points 
+    Outputs
+        Beam_Pattern - The relative beam pattern from the azimuth points
     """
 
 
@@ -138,17 +138,17 @@ def Millstone_Pattern(Az,El,Az0,El0,Angleoffset):
     """
     Millstone_Pattern
     by John Swoboda
-    This function will call circular antenna beam patern function after it 
+    This function will call circular antenna beam patern function after it
     rotates the coordinates given the pointing direction.
     Inputs
             Az - An array of azimuth angles in degrees.
             El - An array of elavation angles in degrees.
-            Az_0 - The azimuth pointing angle in degrees. 
+            Az_0 - The azimuth pointing angle in degrees.
             El_0 - The elevation pointing angle in degrees.
             Angleoffset - A 2 element list hold the offset of the face of the array
             from north (not used)
-    Outputs 
-        Beam_Pattern - The relative beam pattern from the azimuth points 
+    Outputs
+        Beam_Pattern - The relative beam pattern from the azimuth points
     """
     d2r= np.pi/180.0
     r = 34.

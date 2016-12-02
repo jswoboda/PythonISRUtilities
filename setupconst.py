@@ -9,7 +9,7 @@ This script is here to create the h5 files for the ISR systems
 
 import os
 import numpy as np
-from mathutils import angles2xy
+from isrutilities.mathutils import angles2xy
 from scipy.interpolate import griddata
 
 import tables
@@ -25,40 +25,39 @@ if __name__ == "__main__":
     curfile = flist1[0]
     filepath, fext =os.path.splitext(curfile)
     # open file
-    h5file = tables.open_file(curfile)
-    # get the tx power for RISR
-    txpowR = h5file.getNode('/Tx/Power').read()[0,0]
-    # get freq 1 for RISR
-    txfreqR = h5file.getNode('/Tx/Frequency').read()[0,0]
-    # get cal temp
-    caltempR=120
-#    caltempR = h5file.getNode('/Rx/CalTemp').read()
-    # get bandwidth
-    bandwidthR = h5file.getNode('/Rx/Bandwidth').read()
-    # sample time
-    sampletimeR = h5file.getNode('/Rx/SampleTime').read()
-    # angle offset
-    angoffR = np.array([26.0,45.0])
+    with tables.open_file(curfile) as f:
+        # get the tx power for RISR
+        txpowR = f.get_node('/Tx/Power').read()[0,0]
+        # get freq 1 for RISR
+        txfreqR = f.get_Node('/Tx/Frequency').read()[0,0]
+        # get cal temp
+        caltempR=120
+    #    caltempR = f.getNode('/Rx/CalTemp').read()
+        # get bandwidth
+        bandwidthR = f.get_node('/Rx/Bandwidth').read()
+        # sample time
+        sampletimeR = f.get_node('/Rx/SampleTime').read()
+        # angle offset
+        angoffR = np.array([26.0,45.0])
 
-    beamcodemapR = h5file.getNode('/Setup/BeamcodeMap').read()
+        beamcodemapR = f.get_node('/Setup/BeamcodeMap').read()
     beamcodemapR = np.array(beamcodemapR)
 
-    h5file.close()
     posel = np.where(beamcodemapR[:,2]>0)
     beamcodemapR = beamcodemapR[posel]
     #%% Write RISR parameters
-    h5fileout = tables.open_file('RISR_PARAMS.h5',mode='w',title='RISR Parameters')
-    fgroup = h5fileout.create_group('/','Params','Parameters')
+    with tables.open_file('RISR_PARAMS.h5',mode='w',title='RISR Parameters') as f:
+        fgroup = f.create_group('/','Params','Parameters')
 
-    h5fileout.create_array(fgroup, 'Frequency', txfreqR)
-    h5fileout.create_array(fgroup, 'Power', txpowR)
-    h5fileout.create_array(fgroup, 'Kmat', beamcodemapR)
-    h5fileout.create_array(fgroup,'Systemp',caltempR)
-    h5fileout.create_array(fgroup,'Bandwidth',bandwidthR)
-    h5fileout.create_array(fgroup,'Sampletime',sampletimeR)
-    h5fileout.create_array(fgroup,'Angleoffset',angoffR)
+        f.create_array(fgroup, 'Frequency', txfreqR)
+        f.create_array(fgroup, 'Power', txpowR)
+        f.create_array(fgroup, 'Kmat', beamcodemapR)
+        f.create_array(fgroup,'Systemp',caltempR)
+        f.create_array(fgroup,'Bandwidth',bandwidthR)
+        f.create_array(fgroup,'Sampletime',sampletimeR)
+        f.create_array(fgroup,'Angleoffset',angoffR)
 
-    h5fileout.close()
+
     #%% Set up PFISR parameters
     curfile = flist2[0]
     filepath, fext =os.path.splitext(curfile)
