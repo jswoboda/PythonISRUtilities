@@ -40,9 +40,9 @@ def getConst(typestr,angles = None):
         kmat = f.root.Params.Kmat.read()
         freq = float(f.root.Params.Frequency.read())
         P_r = float(f.root.Params.Power.read())
-        bandwidth = f.getNode('/Params/Bandwidth').read()
-        ts = f.getNode('/Params/Sampletime').read()
-        systemp = f.getNode('/Params/Systemp').read()
+        bandwidth = f.get_node('/Params/Bandwidth').read()
+        ts = f.get_node('/Params/Sampletime').read()
+        systemp = f.get_node('/Params/Systemp').read()
         Ang_off = f.root.Params.Angleoffset.read()
 
     Ksens = freq*2*np.pi/v_C_0
