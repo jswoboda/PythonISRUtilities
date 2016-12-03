@@ -13,7 +13,7 @@ config = {
     'author': 'John Swoboda',
     'url': 'https://github.com/jswoboda/PythonISRUtilities.git',
     'version': '1',
-    'install_requires': ['pathlib2'],
+    'install_requires': [],
     'packages': ['isrutilities'],
     'name':      'isrutilities'
 }
