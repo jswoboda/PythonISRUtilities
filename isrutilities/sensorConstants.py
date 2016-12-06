@@ -22,7 +22,7 @@ from .physConstants import v_C_0
 def getConst(typestr,angles = None):
     """Get the constants associated with a specific radar system. This will fill
     out a dictionary with all of the parameters."""
-    dirname = Path(__file__).expanduser().parent
+    dirname = Path(__file__).expanduser().parent.parent
     if typestr.lower() =='risr' or typestr.lower() =='risr-n':
         arrayfunc = AMISR_Patternadj
         h5filename = dirname/'RISR_PARAMS.h5'
