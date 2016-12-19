@@ -187,7 +187,12 @@ def Circ_Ant_Pattern(EL,r,lamb):
     return Patout/normfactor
 
 
-
+def get_files(fname):
+    curpath = Path(__file__).parent.parent
+    newpath=curpath.joinpath(fname)
+    if not newpath.is_file():
+        return False
+    return str(newpath)
 def AMISR_Pattern(AZ,EL,Az0,El0):
     """
     AMISR_Pattern
