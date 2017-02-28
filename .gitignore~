@@ -53,9 +53,11 @@ coverage.xml
 *.pot
 
 # Sphinx documentation
-#docs/_build/
+docs/_build/
 
 # MAT files from data
 *.mat
 # Picture files
+*.png
+*.jpg
 .DS_Store
