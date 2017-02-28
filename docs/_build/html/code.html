@@ -8,7 +8,7 @@
     
     <title>Physical Constants &#8212; ISRUtilities 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -26,26 +26,33 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to ISRUtilities’s Documentation!" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="prev" title="Welcome to ISRUtilities’s Documentation!" href="index.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to ISRUtilities’s Documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ISRUtilities 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="physical-constants">
-<h1>Physical Constants<a class="headerlink" href="#physical-constants" title="Permalink to this headline">¶</a></h1>
-<p>This is a set of physical constants used for different simulations.</p>
-<span class="target" id="module-physConstants"></span><table class="docutils field-list" frame="void" rules="none">
+  <div class="section" id="module-physConstants">
+<span id="physical-constants"></span><h1>Physical Constants<a class="headerlink" href="#module-physConstants" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -55,12 +62,67 @@
 </tr>
 </tbody>
 </table>
-<p>:table:: Variable Descriptions</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Variable Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>v_C_0</td>
+<td>Speed of light m/s.</td>
+</tr>
+<tr class="row-odd"><td>v_Boltz</td>
+<td>Boltzmans Const. J/K.</td>
+</tr>
+<tr class="row-even"><td>v_me</td>
+<td>Mass of electron in kg</td>
+</tr>
+<tr class="row-odd"><td>v_amu</td>
+<td>Mass of proton/neutron in kg.</td>
+</tr>
+<tr class="row-even"><td>v_electronradius</td>
+<td>Electron radius in m.</td>
+</tr>
+<tr class="row-odd"><td>v_electron_rcs</td>
+<td>Cross section of electon m^2.</td>
+</tr>
+<tr class="row-even"><td>v_epsilon0</td>
+<td>Vacuum permittivity.</td>
+</tr>
+<tr class="row-odd"><td>v_mu0</td>
+<td>Vacuum permeability.</td>
+</tr>
+<tr class="row-even"><td>v_elemcharge</td>
+<td>Elementary charge in mks units</td>
+</tr>
+<tr class="row-odd"><td>v_elemcharge_cgs</td>
+<td>Elementary charge in cgs units.</td>
+</tr>
+<tr class="row-even"><td>R_EARTH</td>
+<td>Radius of earth in km.</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="math-utilities">
 <h1>Math Utilities<a class="headerlink" href="#math-utilities" title="Permalink to this headline">¶</a></h1>
 <p>This is a set of math utility functions that can be used for  ISR.</p>
-<span class="target" id="module-mathutils"></span><span class="target" id="module-mathutils"></span><dl class="function">
+<span class="target" id="module-mathutils"></span><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">platform:</th><td class="field-body">Unix, Windows, Mac</td>
+</tr>
+<tr class="field-even field"><th class="field-name">synopsis:</th><td class="field-body">This module has various math functions that are not included in scipy or numpy.</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
 <dt id="mathutils.angles2xy">
 <code class="descclassname">mathutils.</code><code class="descname">angles2xy</code><span class="sig-paren">(</span><em>az</em>, <em>el</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.angles2xy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates x and y coordinates from az and el arrays.</p>
@@ -340,7 +402,17 @@ A convergence flag. The number of repetitions until convergence.</p>
 <div class="section" id="sensor-constants">
 <h1>Sensor Constants<a class="headerlink" href="#sensor-constants" title="Permalink to this headline">¶</a></h1>
 <p>This will create a set of sensor constants depending on an input string.</p>
-<span class="target" id="module-sensorConstants"></span><span class="target" id="module-sensorConstants"></span><dl class="function">
+<span class="target" id="module-sensorConstants"></span><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">platform:</th><td class="field-body">Unix, Windows, Mac</td>
+</tr>
+<tr class="field-even field"><th class="field-name">synopsis:</th><td class="field-body">Gets a ISR sensor constants and calculates theoretical beam patterns.</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
 <dt id="sensorConstants.AMISR_Pattern">
 <code class="descclassname">sensorConstants.</code><code class="descname">AMISR_Pattern</code><span class="sig-paren">(</span><em>AZ</em>, <em>EL</em>, <em>Az0</em>, <em>El0</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.AMISR_Pattern" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the AMISR pattern in the direction of the array face.</p>
@@ -551,14 +623,10 @@ out a dictionary with all of the parameters.</p>
 <li><a class="reference internal" href="#math-utilities">Math Utilities</a></li>
 <li><a class="reference internal" href="#sensor-constants">Sensor Constants</a></li>
 </ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to ISRUtilities&#8217;s Documentation!</a></li>
-  </ul></li>
-</ul>
-</div>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to ISRUtilities&#8217;s Documentation!</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -580,20 +648,24 @@ out a dictionary with all of the parameters.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2017, John Swoboda.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
-      |
-      <a href="_sources/code.rst.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to ISRUtilities’s Documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ISRUtilities 1.0.0 documentation</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, John Swoboda.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
   </body>
 </html>

@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 """
-.. module:: mathutils
-    :platform: Unix, Windows, Mac
-    :synopsis: This module has various math function that are not included in scipy or numpy.
+:platform: Unix, Windows, Mac
+:synopsis: This module has various math functions that are not included in scipy or numpy.
 
 .. moduleauthor:: John Swoboda <swoboj@bu.edu>
 

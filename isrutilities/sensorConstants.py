@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 """
-.. module:: sensorConstants
-    :platform: Unix, Windows, Mac
-    :synopsis: A set of ISR sensor constants that can be used by a bunch of different programs.
+:platform: Unix, Windows, Mac
+:synopsis: Gets a ISR sensor constants and calculates theoretical beam patterns.
     
 .. moduleauthor:: John Swoboda <swoboj@bu.edu>
 """
