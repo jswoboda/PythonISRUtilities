@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 """
-    .. module:: mathutils
+.. module:: mathutils
     :platform: Unix, Windows, Mac
     :synopsis: This module has various math function that are not included in scipy or numpy.
-    
-    .. moduleauthor:: John Swoboda <swoboj@mit.edu>
+
+.. moduleauthor:: John Swoboda <swoboj@bu.edu>
+
 """
 
 import numpy as np
@@ -43,10 +44,10 @@ def jinc(t):
     """ This will output a jinc function.
     
     Args:
-        t (:obj:'numpy array'): Time array in seconds.
+        t (:obj:`numpy array`): Time array in seconds.
         
     Returns:
-        outdata (:obj:'numpy array'): Jinc(t)
+        outdata (:obj:`numpy array`): Jinc(t)
     """
     t = np.asanyarray(t)
 
@@ -65,34 +66,12 @@ def angles2xy(az,el):
     clockwise.
     
     Args:
-        az (:obj:'numpy array'): Azimuth angles in degrees.
-        el (:obj:'numpy array'): Elevation angles in degrees.
+        az (:obj:`numpy array`): Azimuth angles in degrees.
+        el (:obj:`numpy array`): Elevation angles in degrees.
     
     Returns:
-        xout (:obj:'numpy array'): x coordinates.
-        yout (:obj:'numpy array'): y coordinates
-    """
-
-    azt = (az)*np.pi/180.0
-    elt = 90-el
-    xout = elt*np.sin(azt)
-    yout = elt*np.cos(azt)
-    return (xout,yout)
-
-
-def phys2array(az,el):
-    """ This takes the physical angles of azimuth and elevation in degrees
-    and brings them to the array space.
-        
-    Args:
-        az (:obj:'numpy array'): Azimuth angles in degrees.
-        el (:obj:'numpy array'): Elevation angles in degrees.
-    
-    Returns:
-        xout (:obj:'numpy array'): x coordinates.
-        yout (:obj:'numpy array'): y coordinates
-    
-    """
+        (xout (:obj:`numpy array`), yout (:obj:`numpy array`)): x and y coordinates.
+   """
 
     azt = (az)*np.pi/180.0
     elt = 90-el
@@ -105,47 +84,47 @@ def array2cart(Az,El):
         assuming a unit sphere.
         
     Args:
-        Az (:obj:'numpy array'): Azimuth angles in degrees.
-        El (:obj:'numpy array'): Elevation angles in degrees.
+        Az (:obj:`numpy array`): Azimuth angles in degrees.        
+        El (:obj:`numpy array`): Elevation angles in degrees.
     
     Returns:
-        X (:obj:'numpy array'): x coordinates.
-        Y (:obj:'numpy array'): y coordinates.
-        Z (:obj:'numpy array'): z coordinates.
+        (X (:obj:`numpy array`),  Y (:obj:`numpy array`), Z (:obj:`numpy array`)): x, y and z coordinates.        
     """
     d2r = np.pi/180.
     X = np.cos(Az*d2r)*np.cos(El*d2r)
     Y = np.sin(Az*d2r)*np.cos(El*d2r)
     Z = np.sin(El*d2r)
     return (X,Y,Z)
+
 def cart2array(X,Y,Z):
     """ This function will turn the X, Y and Z coordinate to azimuth and elevation angles 
         assuming a unit sphere.
         
     Args:
-        X (:obj:'numpy array'): x coordinates.
-        Y (:obj:'numpy array'): y coordinates.
-        Z (:obj:'numpy array'): z coordinates.
+        X (:obj:`numpy array`): x coordinates.
+        Y (:obj:`numpy array`): y coordinates.
+        Z (:obj:`numpy array`): z coordinates.
     
     Returns:
-        Az (:obj:'numpy array'): Azimuth angles in degrees.
-        El (:obj:'numpy array'): Elevation angles in degrees.
-        """
+        (Az (:obj:`numpy array`), El (:obj:`numpy array`)): Azimuth and elevation angles in degrees.
+    """
     r2d = 180./np.pi
     Az = np.arctan2(Y,X)*r2d
     El = np.arcsin(Z)*r2d
     return (Az,El)
 def rotmatrix(Az_0,El_0):
-    """ Makes a rotation matrix
+    """ Makes a rotation matrix.
     
     This creates a rotation matrix for the rotcoords function. First rotate 
     about the z axis and then rotate about the new y axis
     http://www.agi.com/resources/help/online/stk/11.0/index.htm#comm/CommRadar03-03.htm
+    
     Args:
-        Az_0 (:obj:'float'): The azimuth rotation angle in degrees. 
-        El_0 (:obj:'float'): The elevation rotation angle in degrees.
+        Az_0 (float): The azimuth rotation angle in degrees. 
+        El_0 (float): The elevation rotation angle in degrees.
+        
     Return:
-        rotmat (:obj:'numpy array'): A 3x3 rotation matrix.
+        rotmat (:obj:`numpy array`): A 3x3 rotation matrix.
     """
     d2r = np.pi/180.
     Az_0= Az_0*d2r
@@ -160,14 +139,15 @@ def rotcoords(Az,El,Az_0,El_0):
     This function will rotate the Az and Elevation cordinates given offset
     angles. This will use a rotation matrix after the angles have been 
     changed to Cartisian coordinates assuming a unit sphere.
+    
     Args:
-        Az (:obj:'numpy array'): Azimuth angles in degrees.
-        El (:obj:'numpy array'): Elevation angles in degrees.
-        Az_0 (:obj:'float'): The azimuth rotation angle in degrees. 
-        El_0 (:obj:'float'): The elevation rotation angle in degrees.
-    Outputs
-       Az_out (:obj:'numpy array'): Rotated Azimuth angles in degrees.
-       El_out (:obj:'numpy array'): Rotated Elevation angles in degrees.
+        Az (:obj:`numpy array`): Azimuth angles in degrees.
+        El (:obj:`numpy array`): Elevation angles in degrees.
+        Az_0 (float): The azimuth rotation angle in degrees. 
+        El_0 (float): The elevation rotation angle in degrees.
+        
+    Returns:
+        (Az_out (:obj:`numpy array`), El_out (:obj:`numpy array`)): Rotated azimuth and elevation angles in degrees.
    """
     cartcords = array2cart(Az,El)
     cartmat = np.column_stack(cartcords).transpose()
@@ -176,20 +156,19 @@ def rotcoords(Az,El,Az_0,El_0):
     rotcart = np.dot(rotmat,cartmat)
     return cart2array(rotcart[0],rotcart[1],rotcart[2])
 def chirpz(Xn,A,W,M):
-    """ Chirpz calculation
+    """ Chirpz calculation for a single array.
     
     This function calculates the chirpz transfrom for the numpy array Xn given the
     complex constants A and W along with the length of the final array M.
     
     Args:
-    Xn (:obj:'numpy array'): The signal that the Chirp z transform will be calculated for.
-    A (:obj:'complex'): A complex constant used to determine the direction of the integration in
-        Z.
-    W A (:obj:'complex'): Another complex constant that will determine the direction of the integration in Z.
-    M A (:obj:'int'): The length of the final chirpz transfrom.
+        Xn (:obj:`numpy array`): The signal that the Chirp z transform will be calculated for.
+        A (:obj:`complex`): A complex constant used to determine the direction of the integration in Z.
+        W (:obj:`complex`): Another complex constant that will determine the direction of the integration in Z.
+        M (int): The length of the final chirpz transfrom.
     
     Returns: 
-    yk (:obj:'numpy array'): The M length chirp z tranfrom given Xn and the complex constants.
+        yk (:obj:`numpy array`): The M length chirp z tranfrom given Xn and the complex constants.
     """
     N = Xn.shape[0]
     # Make an L length output so the circular convolution does not wrap. Added 1 extra sample to make coding easier.
@@ -228,24 +207,21 @@ def sommerfeldchirpz(func,N,M,dk,Lmax=1,errF=0.1,a=-1.0j,p=1.0,x0=None,exparams=
     This function also uses a modified Simpsons rule for integration found in Milla PhD Thesis (2010).
 
     Args:
-    func (function): A function that is used to create f(k).
-    N (int): The length of the chirp z transform used.
-    M (int): The length of the output array.
-    dk (float): The sample period of k.
-    Lmax (obj:'int', optional): default 1, The maximum number of repeats of the integration before the loop finishes.
-    errF (obj:'float', optional): default .1, The threshold of the normalized difference between the new
-    iteration and the old to stop to stop the iteration.
-    a (obj:'complex', optional): default -1.0*1j, A complex number that determines the trejectory of the integration on the z plane.
-    p (obj:'float', optional): default 1.0, A real number that helps to define the spacing on the omega plane.
-    x0(obj:'complex', optional): default p*np.pi/dk, The starting point on the omega plane.
-    exparams(obj:'tuple', optional): default (), Any extra params other then k to create f(k).
-    
+        func (func): A function that is used to create f(k).
+        N (int): The length of the chirp z transform used.
+        M (int): The length of the output array.
+        dk (float): The sample period of k.
+        Lmax (:obj:`int`, optional): default 1, The maximum number of repeats of the integration before the loop finishes.
+        errF (:obj:`float`, optional): default .1, The threshold of the normalized difference between the new iteration and the old to stop to stop the iteration.
+        a (:obj:`complex`, optional): default -1.0*1j, A complex number that determines the trejectory of the integration on the z plane.
+        p (:obj:`float`, optional): default 1.0, A real number that helps to define the spacing on the omega plane.
+        x0(:obj:`complex`, optional): default p*np.pi/dk, The starting point on the omega plane.
+        exparams(:obj:`tuple`, optional): default (), Any extra params other then k to create f(k).
+        
     Returns:
-    Xk (:obj:'numpy array'): The integrated data that is of length M.
-    flag_c (bool): A convergence flag.
-    irep (int): The number of repetitions until convergence.
+        (Xk (:obj:`numpy array`),flag_c (bool),irep (int)): The integrated data that is of length M.
+        A convergence flag. The number of repetitions until convergence.
     """
-
 
     k = np.arange(N)*dk
     if x0 is None:
@@ -295,20 +271,18 @@ def sommerfelderfrep(func,N,omega,b1,Lmax=1,errF=0.1,exparams=()):
     This function uses sommerfelderf to do the integration
     
     Args:
-    func (function): A function that is used to create f(k).
-    N (int): The integration uses 2N+1 samples to do the integration.
-    omega (float): The Frequency array in radians per second.
-    b1 (int): The inital bounds of the first try and then step size for each subsiquent
-    integral.
-    Lmax (obj:'int', optional): default 1, The maximum number of repeats of the integration before the loop finishes.
-    errF (obj:'float', optional): default .1, The threshold of the normalized difference between the new
-    iteration and the old to stop to stop the iteration.
-    exparams(obj:'tuple', optional): default (), Any extra params other then k to create f(k).
-    
+        func (func): A function that is used to create f(k).
+        N (int): The integration uses 2N+1 samples to do the integration.
+        omega (float): The Frequency array in radians per second.
+        b1 (int): The inital bounds of the first try and then step size for each subsiquent integral.
+        Lmax (:obj:`int`, optional): default 1, The maximum number of repeats of the integration before the loop finishes.
+        errF (:obj:`float`, optional): default .1, The threshold of the normalized difference between the new
+            iteration and the old to stop to stop the iteration.
+        exparams(:obj:`tuple`, optional): default (), Any extra params other then k to create f(k).
+        
     Returns:
-    Xk (:obj:'numpy array'): The integrated data that is the same length as omega.
-    flag_c (bool): A convergence flag.
-    irep (int): The number of repetitions until convergence.
+        (Xk (:obj:`numpy array`),flag_c (bool),irep (int)): The integrated data that is of length M.
+        A convergence flag. The number of repetitions until convergence.
     """
     Xk =np.zeros_like(omega)*(1+1j)
     flag_c=False
@@ -335,14 +309,15 @@ def sommerfelderf(func,N,omega,a,b,exparams=()):
     using the ERF transform and 2N+1 samples. This technique is from the paper B. L. Ooi 2007.
     
     Args:
-    func (function): A function that is used to create f(k).
-    N (int): The integration uses 2N+1 samples to do the integration.
-    omega: The Frequency array in radians per second.
-    a (float): Lower bound of the integral.
-    b (float): Upper bound of teh integral.
-    exparams (obj:'tuple', optional): default (), Any extra params other then k to create f(k).
+        func (func): A function that is used to create f(k).
+        N (int): The integration uses 2N+1 samples to do the integration.
+        omega: The Frequency array in radians per second.
+        a (float): Lower bound of the integral.
+        b (float): Upper bound of teh integral.
+        exparams (:obj:`tuple`, optional): default (), Any extra params other then k to create f(k).
+        
     Returns:
-    Xk (:obj:'numpy array'): The integrated data that is the same length as omega.
+        Xk (:obj:`numpy array`): The integrated data that is the same length as omega.
     """
 
     nvec = np.arange(-N,N+1)
