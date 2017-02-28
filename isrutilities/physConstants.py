@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 """
-.. module:: physConstants
-    :platform: Unix, Windows, Mac
-    :synopsis: A set of physical constants that can be used by a bunch of different programs.
+:platform: Unix, Windows, Mac
+:synopsis: A set of physical constants that can be used by a bunch of different programs.
     
 .. moduleauthor:: John Swoboda <swoboj@bu.edu>
 """
