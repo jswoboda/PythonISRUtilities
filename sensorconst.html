@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Sensor Constants &#8212; ISRUtilities 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Math utilities" href="code.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-sensorConstants">
+<span id="sensor-constants"></span><h1>Sensor Constants<a class="headerlink" href="#module-sensorConstants" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-sensorConstants"></span><dl class="function">
+<dt id="sensorConstants.AMISR_Pattern">
+<code class="descclassname">sensorConstants.</code><code class="descname">AMISR_Pattern</code><span class="sig-paren">(</span><em>AZ</em>, <em>EL</em>, <em>Az0</em>, <em>El0</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.AMISR_Pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the AMISR pattern in the direction of the array face.</p>
+<p>This function will create an idealized antenna pattern for the AMISR array. The pattern is not normalized. The antenna is assumed to made of a grid of ideal cross dipole
+elements. In the array every other column is shifted by 1/2 dy. The
+parameters are taken from the AMISR spec and the method for calculating
+the field is derived from a report by Adam R. Wichman.
+The inputs for the az and el coordinates can be either an array or
+scalar. If both are arrays they must be the same shape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth pointing angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation pointing angle in degrees.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Patout (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The normalized radiation density.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.AMISR_Patternadj">
+<code class="descclassname">sensorConstants.</code><code class="descname">AMISR_Patternadj</code><span class="sig-paren">(</span><em>Az</em>, <em>El</em>, <em>Az0</em>, <em>El0</em>, <em>Angleoffset</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.AMISR_Patternadj" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will call AMISR beam patern function after it rotates the coordinates
+given the offset of the phased array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth pointing angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation pointing angle in degrees.</li>
+<li><strong>Angleoffset</strong> (<em>list</em>) &#8211; A 2 element list holding the offset of the face of the array
+from north.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Beam_Pattern (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The relative beam pattern from the azimuth points.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.Circ_Ant_Pattern">
+<code class="descclassname">sensorConstants.</code><code class="descname">Circ_Ant_Pattern</code><span class="sig-paren">(</span><em>EL</em>, <em>r</em>, <em>lamb</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.Circ_Ant_Pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the pattern for a circular dish antenna.</p>
+<p>This function will create an idealized antenna pattern for a circular antenna
+array. The pattern is not normalized.
+The antenna is assumed to made of a grid of ideal cross dipole
+elements. In the array every other column is shifted by 1/2 dy. The
+parameters are taken from the AMISR spec and the method for calculating
+the field is derived from a report by Adam R. Wichman.
+The inputs for the az and el coordinates can be either an array or
+scalar. If both are arrays they must be the same shape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>EL</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The elevation coordinates in radians. Vertical is at zero radians.</li>
+<li><strong>r</strong> (<em>float</em>) &#8211; Radius of the antenna in meters.</li>
+<li><strong>lamb</strong> (<em>float</em>) &#8211; wavelength of radiation in meters.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Patout (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The normalized radiation density.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.Millstone_Pattern">
+<code class="descclassname">sensorConstants.</code><code class="descname">Millstone_Pattern</code><span class="sig-paren">(</span><em>Az</em>, <em>El</em>, <em>Az0</em>, <em>El0</em>, <em>Angleoffset</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.Millstone_Pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the ideal antenna pattern for the MISA dish at Milstone hill.</p>
+<p>This function will call circular antenna beam patern function after it
+rotates the coordinates given the pointing direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth pointing angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation pointing angle in degrees.</li>
+<li><strong>Angleoffset</strong> (<em>list</em>) &#8211; A 2 element list holding the offset of the face of the array
+from north.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Beam_Pattern (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The relative beam pattern from the azimuth points.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.Sond_Pattern">
+<code class="descclassname">sensorConstants.</code><code class="descname">Sond_Pattern</code><span class="sig-paren">(</span><em>Az</em>, <em>El</em>, <em>Az0</em>, <em>El0</em>, <em>Angleoffset</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.Sond_Pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the ideal antenna pattern for the Sondestrom radar.</p>
+<p>This function will call circular antenna beam patern function after it
+rotates the coordinates given the pointing direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth pointing angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation pointing angle in degrees.</li>
+<li><strong>Angleoffset</strong> (<em>list</em>) &#8211; A 2 element list holding the offset of the face of the array
+from north.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Beam_Pattern (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The relative beam pattern from the azimuth points.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.getConst">
+<code class="descclassname">sensorConstants.</code><code class="descname">getConst</code><span class="sig-paren">(</span><em>typestr</em>, <em>angles=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.getConst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the constants associated with a specific radar system. This will fill
+out a dictionary with all of the parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>type</strong> (<em>str</em>) &#8211; Name of the radar system.</li>
+<li><strong>angles</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Nx2 array where each row is an az, el pair in degrees.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p><em>sensdict (dict[str, obj])</em> &#8211;</p>
+<p>Holds the different sensor constants.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+        <span class="s1">&#39;Name&#39;</span><span class="p">:</span> <span class="n">radar</span> <span class="n">name</span><span class="p">,</span>
+        <span class="s1">&#39;Pt&#39;</span><span class="p">:</span> <span class="n">Transmit</span> <span class="n">power</span> <span class="ow">in</span> <span class="n">W</span><span class="p">,</span>
+        <span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="n">wave</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">rad</span><span class="o">/</span><span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;lamb&#39;</span><span class="p">:</span> <span class="n">Wave</span> <span class="n">length</span> <span class="ow">in</span> <span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;fc&#39;</span><span class="p">:</span> <span class="n">Carrier</span> <span class="n">Frequency</span> <span class="ow">in</span> <span class="n">Hz</span><span class="p">,</span>
+        <span class="s1">&#39;fs&#39;</span><span class="p">:</span> <span class="n">Sampling</span> <span class="n">frequency</span> <span class="ow">in</span> <span class="n">Hz</span><span class="p">,</span>
+        <span class="s1">&#39;taurg&#39;</span><span class="p">:</span> <span class="n">Pulse</span> <span class="n">length</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span><span class="p">,</span>
+        <span class="s1">&#39;Tsys&#39;</span><span class="p">:</span> <span class="n">System</span> <span class="n">Temperature</span> <span class="ow">in</span> <span class="n">K</span><span class="p">,</span>
+        <span class="s1">&#39;BeamWidth&#39;</span><span class="p">:</span> <span class="n">Tuple</span> <span class="n">of</span> <span class="n">beamwidths</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">,</span>
+        <span class="s1">&#39;Ksys&#39;</span><span class="p">:</span> <span class="p">,</span>
+        <span class="s1">&#39;BandWidth&#39;</span><span class="p">:</span> <span class="n">Filter</span> <span class="n">bandwidth</span> <span class="ow">in</span> <span class="n">Hz</span><span class="p">,</span>
+        <span class="s1">&#39;Angleoffset&#39;</span><span class="p">:</span> <span class="n">Tuple</span> <span class="n">of</span> <span class="n">angle</span> <span class="n">offset</span><span class="p">,</span>
+        <span class="s1">&#39;ArrayFunc&#39;</span><span class="p">:</span> <span class="n">Function</span> <span class="n">to</span> <span class="n">calculate</span> <span class="n">antenna</span> <span class="n">pattern</span><span class="p">,</span>
+        <span class="s1">&#39;t_s&#39;</span><span class="p">:</span> <span class="n">Sampling</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">s</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.get_files">
+<code class="descclassname">sensorConstants.</code><code class="descname">get_files</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.get_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the hdf5 files associated with the radar.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<em>str</em>) &#8211; Name for the radar.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>newpath (str)</em> &#8211; String holding the location for the file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="code.html" title="previous chapter">Math utilities</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/sensorconst.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, John Swoboda.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/sensorconst.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
