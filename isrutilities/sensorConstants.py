@@ -2,7 +2,7 @@
 """
 :platform: Unix, Windows, Mac
 :synopsis: Gets a ISR sensor constants and calculates theoretical beam patterns.
-    
+
 .. moduleauthor:: John Swoboda <swoboj@bu.edu>
 """
 from isrutilities import Path
@@ -22,14 +22,14 @@ from physConstants import v_C_0
 def getConst(typestr,angles = None):
     """Get the constants associated with a specific radar system. This will fill
     out a dictionary with all of the parameters.
-    
+
     Args:
         type (str): Name of the radar system.
         angles (:obj:`numpy array`): Nx2 array where each row is an az, el pair in degrees.
-        
+
     Returns:
         sensdict (dict[str, obj]): Holds the different sensor constants.::
-        
+
             {
                     'Name': radar name,
                     'Pt': Transmit power in W,
@@ -48,16 +48,19 @@ def getConst(typestr,angles = None):
             }
     """
     dirname = Path(__file__).expanduser().parent.parent
-    if typestr.lower() =='risr' or typestr.lower() =='risr-n':
+    if typestr.lower() == 'risr' or typestr.lower() == 'risr-n':
         arrayfunc = AMISR_Patternadj
         h5filename = dirname/'RISR_PARAMS.h5'
-    elif typestr.lower() =='pfisr':
+    elif typestr.lower() == 'pfisr':
         arrayfunc = AMISR_Patternadj
         h5filename = dirname/'PFISR_PARAMS.h5'
-    elif typestr.lower() =='millstone':
-        arrayfunc = Millstone_Pattern
+    elif typestr.lower() == 'millstone':
+        arrayfunc = Millstone_Pattern_M
         h5filename = dirname/'Millstone_PARAMS.h5'
-    elif typestr.lower() =='sondrestrom':
+    elif typestr.lower() == 'millstonez':
+        arrayfunc = Millstone_Pattern_Z
+        h5filename = dirname/'Millstone_PARAMS.h5'
+    elif typestr.lower() == 'sondrestrom':
         arrayfunc = Sond_Pattern
         h5filename = dirname/'Sondrestrom_PARAMS.h5'
 
@@ -71,13 +74,13 @@ def getConst(typestr,angles = None):
         Ang_off = f.root.Params.Angleoffset.read()
 
     Ksens = freq*2*np.pi/v_C_0
-    lamb=Ksens/2.0/np.pi
-    az = kmat[:,1]
-    el = kmat[:,2]
-    ksys = kmat[:,3]
+    lamb = Ksens/2.0/np.pi
+    az = kmat[:, 1]
+    el = kmat[:, 2]
+    ksys = kmat[:, 3]
 
-    (xin,yin) = angles2xy(az,el)
-    points = sp.column_stack((xin,yin))
+    (xin, yin) = angles2xy(az, el)
+    points = sp.column_stack((xin, yin))
     if angles is not None:
         (xvec,yvec) = angles2xy(angles[:,0],angles[:,1])
         ksysout = griddata(points, ksys, (xvec, yvec), method='nearest')
@@ -94,86 +97,110 @@ def getConst(typestr,angles = None):
 def AMISR_Patternadj(Az,El,Az0,El0,Angleoffset):
     """This function will call AMISR beam patern function after it rotates the coordinates
     given the offset of the phased array.
-    
+
     Args:
         Az (:obj:`numpy array`): Azimuth angles in degrees.
         El (:obj:`numpy array`): Elevation angles in degrees.
-        Az_0 (float): The azimuth pointing angle in degrees. 
+        Az_0 (float): The azimuth pointing angle in degrees.
         El_0 (float): The elevation pointing angle in degrees.
         Angleoffset (list): A 2 element list holding the offset of the face of the array
             from north.
     Returns:
         Beam_Pattern (:obj:`numpy array`): The relative beam pattern from the azimuth points.
     """
-    d2r= np.pi/180.0
+    d2r = np.pi/180.0
 
-    Azs,Els = rotcoords(Az,El,-Angleoffset[0],-Angleoffset[1])
-    eps = np.finfo(Az.dtype).eps
-    Azs[np.abs(Azs)<15*eps]=0.
-    Azs = np.mod(Azs,360.)
+    Azs, Els = rotcoords(Az, El, -Angleoffset[0], -Angleoffset[1])
+    eps = np.finfo(Az. dtype).eps
+    Azs[np.abs(Azs) < 15*eps] = 0.
+    Azs = np.mod(Azs, 360.)
 
-    Az0s,El0s = rotcoords(Az0,El0,-Angleoffset[0],-Angleoffset[1])
+    Az0s, El0s = rotcoords(Az0, El0, -Angleoffset[0], -Angleoffset[1])
     Elr = (90.-Els)*d2r
     El0r = (90.-El0s)*d2r
     Azr = Azs*d2r
     Az0r = Az0s*d2r
-    return AMISR_Pattern(Azr,Elr,Az0r,El0r)
+    return AMISR_Pattern(Azr, Elr, Az0r, El0r)
 
 def Sond_Pattern(Az,El,Az0,El0,Angleoffset):
     """Gives the ideal antenna pattern for the Sondestrom radar.
-    
+
     This function will call circular antenna beam patern function after it
     rotates the coordinates given the pointing direction.
-    
+
     Args:
         Az (:obj:`numpy array`): Azimuth angles in degrees.
         El (:obj:`numpy array`): Elevation angles in degrees.
-        Az_0 (float): The azimuth pointing angle in degrees. 
+        Az_0 (float): The azimuth pointing angle in degrees.
         El_0 (float): The elevation pointing angle in degrees.
         Angleoffset (list): A 2 element list holding the offset of the face of the array
             from north.
-            
+
     Returns:
         Beam_Pattern (:obj:`numpy array`): The relative beam pattern from the azimuth points.
     """
 
 
     d2r= np.pi/180.0
-    r = 30.
+    radius = 30.
     lamb = v_C_0/1.2e9
 
-    Azadj,Eladj = rotcoords(Az,El,-Az0,El0-90.)
+    __, Eladj = rotcoords(Az,El,-Az0,El0-90.)
     Elr = (90.0-Eladj)*d2r
-    return Circ_Ant_Pattern(Elr,r,lamb)
+    return Circ_Ant_Pattern(Elr,radius,lamb)
 
-def Millstone_Pattern(Az,El,Az0,El0,Angleoffset):
-    """Gives the ideal antenna pattern for the MISA dish at Milstone hill.
-    
+def Millstone_Pattern_Z(Az, El, Az0, El0, Angleoffset):
+    """Gives the ideal antenna pattern for the Zenith dish at Milstone hill.
+
     This function will call circular antenna beam patern function after it
     rotates the coordinates given the pointing direction.
-    
-    
+
+
     Args:
         Az (:obj:`numpy array`): Azimuth angles in degrees.
         El (:obj:`numpy array`): Elevation angles in degrees.
-        Az_0 (float): The azimuth pointing angle in degrees. 
+        Az_0 (float): The azimuth pointing angle in degrees.
         El_0 (float): The elevation pointing angle in degrees.
         Angleoffset (list): A 2 element list holding the offset of the face of the array
             from north.
-            
+
+    Returns:
+        Beam_Pattern (:obj:`numpy array`): The relative beam pattern from the azimuth points.
+    """
+    d2r = np.pi/180.0
+    radius = 33.5
+    lamb = v_C_0/4.4e8
+    __, Eladj = rotcoords(Az, El, 0.0, 0.)
+    Elr = (90.0-Eladj)*d2r
+    return Circ_Ant_Pattern(Elr,radius,lamb)
+
+def Millstone_Pattern_M(Az,El,Az0,El0,Angleoffset):
+    """Gives the ideal antenna pattern for the MISA dish at Milstone hill.
+
+    This function will call circular antenna beam patern function after it
+    rotates the coordinates given the pointing direction.
+
+
+    Args:
+        Az (:obj:`numpy array`): Azimuth angles in degrees.
+        El (:obj:`numpy array`): Elevation angles in degrees.
+        Az_0 (float): The azimuth pointing angle in degrees.
+        El_0 (float): The elevation pointing angle in degrees.
+        Angleoffset (list): A 2 element list holding the offset of the face of the array
+            from north.
+
     Returns:
         Beam_Pattern (:obj:`numpy array`): The relative beam pattern from the azimuth points.
     """
     d2r= np.pi/180.0
-    r = 34.
+    r = 23.
     lamb = v_C_0/4.4e8
     Azadj,Eladj = rotcoords(Az,El,-Az0,El0-90.)
     Elr = (90.0-Eladj)*d2r
     return Circ_Ant_Pattern(Elr,r,lamb)
-
 def Circ_Ant_Pattern(EL,r,lamb):
     """Returns the pattern for a circular dish antenna.
-    
+
     This function will create an idealized antenna pattern for a circular antenna
     array. The pattern is not normalized.
     The antenna is assumed to made of a grid of ideal cross dipole
@@ -182,13 +209,13 @@ def Circ_Ant_Pattern(EL,r,lamb):
     the field is derived from a report by Adam R. Wichman.
     The inputs for the az and el coordinates can be either an array or
     scalar. If both are arrays they must be the same shape.
-    
+
     Args:
 
         EL (:obj:`numpy array`): The elevation coordinates in radians. Vertical is at zero radians.
         r (float): Radius of the antenna in meters.
         lamb (float): wavelength of radiation in meters.
-        
+
     Returns:
         Patout (:obj:`numpy array`): The normalized radiation density.
     """
@@ -200,10 +227,10 @@ def Circ_Ant_Pattern(EL,r,lamb):
 
 def get_files(fname):
     """ Gets the hdf5 files associated with the radar.
-    
+
     Args:
         fname (str): Name for the radar.
-        
+
     Returns:
         newpath (str): String holding the location for the file.
     """
@@ -215,20 +242,20 @@ def get_files(fname):
 
 def AMISR_Pattern(AZ,EL,Az0,El0):
     """Returns the AMISR pattern in the direction of the array face.
-    
+
     This function will create an idealized antenna pattern for the AMISR array. The pattern is not normalized. The antenna is assumed to made of a grid of ideal cross dipole
     elements. In the array every other column is shifted by 1/2 dy. The
     parameters are taken from the AMISR spec and the method for calculating
     the field is derived from a report by Adam R. Wichman.
     The inputs for the az and el coordinates can be either an array or
     scalar. If both are arrays they must be the same shape.
-    
+
     Args:
         Az (:obj:`numpy array`): Azimuth angles in degrees.
         El (:obj:`numpy array`): Elevation angles in degrees.
-        Az_0 (float): The azimuth pointing angle in degrees. 
+        Az_0 (float): The azimuth pointing angle in degrees.
         El_0 (float): The elevation pointing angle in degrees.
-        
+
     Returns:
         Patout (:obj:`numpy array`): The normalized radiation density.
     """
