@@ -163,15 +163,17 @@ if __name__ == "__main__":
     elvec = np.linspace(25.,89,65)
     (azmat,elmat) = np.meshgrid(azvec,elvec)
 
+    azflat = np.append(azmat.flatten(),0.)
+    elflat = np.append(elmat.flatten(),90.)
     (az,el,ksys)=beamcodemapR.transpose()[1:]
     (xin,yin) = angles2xy(az,el)
     points = np.column_stack((xin,yin))
-    (xvec,yvec) = angles2xy(azmat.flatten(),elmat.flatten())
+    (xvec,yvec) = angles2xy(azflat,elflat)
     ksysout = griddata(points, ksys, (xvec, yvec), method='nearest')
     # size ksys to deal with the different wavelength and antenna gain from Millstone
     # makes the returns go up by 2.5 dB
     ksysout = ksysout*np.power(10.,2.5/10.)
-    beamcodemapP = np.column_stack((np.arange(azmat.size),azmat.flatten(),elmat.flatten(),ksysout))
+    beamcodemapP = np.column_stack((np.arange(azflat.size),azflat,elflat,ksysout))
 
 
     #%% Write Millstone parameters
@@ -186,4 +188,3 @@ if __name__ == "__main__":
     h5fileout.create_array(fgroup,'Sampletime',sampletimeP)
     h5fileout.create_array(fgroup,'Angleoffset',angoffP)
     h5fileout.close()
-
