@@ -241,23 +241,24 @@ def get_files(fname):
     return str(newpath)
 
 def AMISR_Pattern(AZ,EL,Az0,El0):
-    """Returns the AMISR pattern in the direction of the array face.
+    """
+        Returns the AMISR pattern in the direction of the array face.
 
-    This function will create an idealized antenna pattern for the AMISR array. The pattern is not normalized. The antenna is assumed to made of a grid of ideal cross dipole
-    elements. In the array every other column is shifted by 1/2 dy. The
-    parameters are taken from the AMISR spec and the method for calculating
-    the field is derived from a report by Adam R. Wichman.
-    The inputs for the az and el coordinates can be either an array or
-    scalar. If both are arrays they must be the same shape.
+        This function will create an idealized antenna pattern for the AMISR array. The pattern is not normalized. The antenna is assumed to made of a grid of ideal cross dipole
+        elements. In the array every other column is shifted by 1/2 dy. The
+        parameters are taken from the AMISR spec and the method for calculating
+        the field is derived from a report by Adam R. Wichman.
+        The inputs for the az and el coordinates can be either an array or
+        scalar. If both are arrays they must be the same shape.
 
-    Args:
-        Az (:obj:`numpy array`): Azimuth angles in degrees.
-        El (:obj:`numpy array`): Elevation angles in degrees.
-        Az_0 (float): The azimuth pointing angle in degrees.
-        El_0 (float): The elevation pointing angle in degrees.
+        Args:
+            Az (:obj:`numpy array`): Azimuth angles in degrees.
+            El (:obj:`numpy array`): Elevation angles in degrees.
+            Az_0 (float): The azimuth pointing angle in degrees.
+            El_0 (float): The elevation pointing angle in degrees.
 
-    Returns:
-        Patout (:obj:`numpy array`): The normalized radiation density.
+        Returns:
+            Patout (:obj:`numpy array`): The normalized radiation density.
     """
     f0=440e6 # frequency of AMISR in Hz
     lam0=v_C_0/f0 # wavelength in m
