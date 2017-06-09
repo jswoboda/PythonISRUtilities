@@ -3,7 +3,7 @@
 :platform: Unix, Windows, Mac
 :synopsis: This module has various math functions that are not included in scipy or numpy.
 
-.. moduleauthor:: John Swoboda <swoboj@bu.edu>
+.. moduleauthor:: John Swoboda <swoboj@mit.edu>
 
 """
 
@@ -19,7 +19,7 @@ except ImportError:
 
 def diric(x,n):
     """ Based on octave-signal v. 1.10 diric. Jitted for up to 2x speedup in this case, and demo of Numba 0.17
-    
+
     :Authors: Michael Hirsch
     """
     n = int(n)
@@ -30,7 +30,7 @@ def diric(x,n):
 @jit
 def _diric(x,n):
     """ Based on octave-signal v. 1.10 diric. Jitted for up to 2x speedup in this case, and demo of Numba 0.17
-    
+
     :Authors:Michael Hirsch
     """
     y = np.divide(np.sin(n*x/2),(n*np.sin(x/2)))
@@ -41,10 +41,10 @@ def _diric(x,n):
 @jit
 def jinc(t):
     """ This will output a jinc function.
-    
+
     Args:
         t (:obj:`numpy array`): Time array in seconds.
-        
+
     Returns:
         outdata (:obj:`numpy array`): Jinc(t)
     """
@@ -58,16 +58,16 @@ def jinc(t):
 
 def angles2xy(az,el):
     """Creates x and y coordinates from az and el arrays.
-    
+
     This function will take a numpy array of az and elevation angles in degrees and
     create the x, y locations projected on to the z=0 plane. It is assumed that the
     elevation angle is mesured from the z=0 plane. The az angle is from x=0 and goes
     clockwise.
-    
+
     Args:
         az (:obj:`numpy array`): Azimuth angles in degrees.
         el (:obj:`numpy array`): Elevation angles in degrees.
-    
+
     Returns:
         (xout (:obj:`numpy array`), yout (:obj:`numpy array`)): x and y coordinates.
    """
@@ -81,13 +81,13 @@ def angles2xy(az,el):
 def array2cart(Az,El):
     """ This function will turn azimuth and elevation angles to X, Y and Z coordinates
         assuming a unit sphere.
-        
+
     Args:
-        Az (:obj:`numpy array`): Azimuth angles in degrees.        
+        Az (:obj:`numpy array`): Azimuth angles in degrees.
         El (:obj:`numpy array`): Elevation angles in degrees.
-    
+
     Returns:
-        (X (:obj:`numpy array`),  Y (:obj:`numpy array`), Z (:obj:`numpy array`)): x, y and z coordinates.        
+        (X (:obj:`numpy array`),  Y (:obj:`numpy array`), Z (:obj:`numpy array`)): x, y and z coordinates.
     """
     d2r = np.pi/180.
     X = np.cos(Az*d2r)*np.cos(El*d2r)
@@ -96,14 +96,14 @@ def array2cart(Az,El):
     return (X,Y,Z)
 
 def cart2array(X,Y,Z):
-    """ This function will turn the X, Y and Z coordinate to azimuth and elevation angles 
+    """ This function will turn the X, Y and Z coordinate to azimuth and elevation angles
         assuming a unit sphere.
-        
+
     Args:
         X (:obj:`numpy array`): x coordinates.
         Y (:obj:`numpy array`): y coordinates.
         Z (:obj:`numpy array`): z coordinates.
-    
+
     Returns:
         (Az (:obj:`numpy array`), El (:obj:`numpy array`)): Azimuth and elevation angles in degrees.
     """
@@ -113,15 +113,15 @@ def cart2array(X,Y,Z):
     return (Az,El)
 def rotmatrix(Az_0,El_0):
     """ Makes a rotation matrix.
-    
-    This creates a rotation matrix for the rotcoords function. First rotate 
+
+    This creates a rotation matrix for the rotcoords function. First rotate
     about the z axis and then rotate about the new y axis
     http://www.agi.com/resources/help/online/stk/11.0/index.htm#comm/CommRadar03-03.htm
-    
+
     Args:
-        Az_0 (float): The azimuth rotation angle in degrees. 
+        Az_0 (float): The azimuth rotation angle in degrees.
         El_0 (float): The elevation rotation angle in degrees.
-        
+
     Return:
         rotmat (:obj:`numpy array`): A 3x3 rotation matrix.
     """
@@ -134,17 +134,17 @@ def rotmatrix(Az_0,El_0):
 
 def rotcoords(Az,El,Az_0,El_0):
     """ Applies rotation matrix to Az and El arrays.
-    
+
     This function will rotate the Az and Elevation cordinates given offset
-    angles. This will use a rotation matrix after the angles have been 
+    angles. This will use a rotation matrix after the angles have been
     changed to Cartisian coordinates assuming a unit sphere.
-    
+
     Args:
         Az (:obj:`numpy array`): Azimuth angles in degrees.
         El (:obj:`numpy array`): Elevation angles in degrees.
-        Az_0 (float): The azimuth rotation angle in degrees. 
+        Az_0 (float): The azimuth rotation angle in degrees.
         El_0 (float): The elevation rotation angle in degrees.
-        
+
     Returns:
         (Az_out (:obj:`numpy array`), El_out (:obj:`numpy array`)): Rotated azimuth and elevation angles in degrees.
    """
@@ -156,17 +156,17 @@ def rotcoords(Az,El,Az_0,El_0):
     return cart2array(rotcart[0],rotcart[1],rotcart[2])
 def chirpz(Xn,A,W,M):
     """ Chirpz calculation for a single array.
-    
+
     This function calculates the chirpz transfrom for the numpy array Xn given the
     complex constants A and W along with the length of the final array M.
-    
+
     Args:
         Xn (:obj:`numpy array`): The signal that the Chirp z transform will be calculated for.
         A (:obj:`complex`): A complex constant used to determine the direction of the integration in Z.
         W (:obj:`complex`): Another complex constant that will determine the direction of the integration in Z.
         M (int): The length of the final chirpz transfrom.
-    
-    Returns: 
+
+    Returns:
         yk (:obj:`numpy array`): The M length chirp z tranfrom given Xn and the complex constants.
     """
     N = Xn.shape[0]
@@ -196,7 +196,7 @@ def chirpz(Xn,A,W,M):
 
 def sommerfeldchirpz(func,N,M,dk,Lmax=1,errF=0.1,a=-1.0j,p=1.0,x0=None,exparams=()):
     """ Numerically integrate Sommerfeld like integral using chirpz.
-    
+
     This function will numerically integrate a Sommerfeld like integral, int(exp(awk)f(k),t=0..inf)
     using at most Lmax number of N length chirpz transforms to make an M length
     array. If the normalized difference between the previous estimate of the output Xk is
@@ -216,7 +216,7 @@ def sommerfeldchirpz(func,N,M,dk,Lmax=1,errF=0.1,a=-1.0j,p=1.0,x0=None,exparams=
         p (:obj:`float`, optional): default 1.0, A real number that helps to define the spacing on the omega plane.
         x0(:obj:`complex`, optional): default p*np.pi/dk, The starting point on the omega plane.
         exparams(:obj:`tuple`, optional): default (), Any extra params other then k to create f(k).
-        
+
     Returns:
         (Xk (:obj:`numpy array`),flag_c (bool),irep (int)): The integrated data that is of length M.
         A convergence flag. The number of repetitions until convergence.
@@ -262,13 +262,13 @@ def sommerfeldchirpz(func,N,M,dk,Lmax=1,errF=0.1,a=-1.0j,p=1.0,x0=None,exparams=
 
 def sommerfelderfrep(func,N,omega,b1,Lmax=1,errF=0.1,exparams=()):
     """  Numerically integrate Sommerfeld like integral using erf transform function loop.
-    
+
     This function will numerically integrate a Sommerfeld like integral, int(exp(-jwk)f(k),k=0..inf)
     using the ERF transform and 2N+1 samples and at most Lmax loops. If the normalized difference
     between the previous estimate of the output Xk is less then the parameter errF then the loop stops
     and a flag that represents convergence is set to true. A number of loops is also output as well.
     This function uses sommerfelderf to do the integration
-    
+
     Args:
         func (func): A function that is used to create f(k).
         N (int): The integration uses 2N+1 samples to do the integration.
@@ -278,7 +278,7 @@ def sommerfelderfrep(func,N,omega,b1,Lmax=1,errF=0.1,exparams=()):
         errF (:obj:`float`, optional): default .1, The threshold of the normalized difference between the new
             iteration and the old to stop to stop the iteration.
         exparams(:obj:`tuple`, optional): default (), Any extra params other then k to create f(k).
-        
+
     Returns:
         (Xk (:obj:`numpy array`),flag_c (bool),irep (int)): The integrated data that is of length M.
         A convergence flag. The number of repetitions until convergence.
@@ -306,7 +306,7 @@ def sommerfelderf(func,N,omega,a,b,exparams=()):
 
     This function will numerically integrate a Sommerfeld like integral, int(exp(-jwk)f(k),k=a..b)
     using the ERF transform and 2N+1 samples. This technique is from the paper B. L. Ooi 2007.
-    
+
     Args:
         func (func): A function that is used to create f(k).
         N (int): The integration uses 2N+1 samples to do the integration.
@@ -314,7 +314,7 @@ def sommerfelderf(func,N,omega,a,b,exparams=()):
         a (float): Lower bound of the integral.
         b (float): Upper bound of teh integral.
         exparams (:obj:`tuple`, optional): default (), Any extra params other then k to create f(k).
-        
+
     Returns:
         Xk (:obj:`numpy array`): The integrated data that is the same length as omega.
     """
