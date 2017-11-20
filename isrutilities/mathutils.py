@@ -5,32 +5,28 @@
 .. moduleauthor:: John Swoboda <swoboj@mit.edu>
 
 """
-
+from __future__ import division
 import numpy as np
 import scipy.fftpack as fftsy
 import scipy.special
 
 
 def diric(x,n):
-    """ Based on octave-signal v. 1.10 diric. Jitted for up to 2x speedup in this case, and demo of Numba 0.17
+    """ Based on octave-signal v. 1.10 diric. 
 
     :Authors: Michael Hirsch
     """
     n = int(n)
     if n < 1:
-        raise RuntimeError('n must be a strictly positive integer')
-    return _diric(np.asanyarray(x),n)
-
-
-def _diric(x,n):
-    """ Based on octave-signal v. 1.10 diric. Jitted for up to 2x speedup in this case, and demo of Numba 0.17
-
-    :Authors:Michael Hirsch
-    """
-    y = np.divide(np.sin(n*x/2),(n*np.sin(x/2)))
-    #edge case
+        raise ValueError('n is a strictly positive integer')
+        
+    x = np.asanyarray(x)
+    
+    y = np.sin(n*x/2) / (n*np.sin(x/2))
+    # edge case
     badx = np.isnan(y)
     y[badx] = (-1)**((n-1)*x[badx]/(2*np.pi))
+        
     return y
     
     
@@ -54,11 +50,9 @@ def jinc(t):
 
 def angles2xy(az,el):
     """Creates x and y coordinates from az and el arrays.
-
-    This function will take a numpy array of az and elevation angles in degrees and
-    create the x, y locations projected on to the z=0 plane. It is assumed that the
-    elevation angle is mesured from the z=0 plane. The az angle is from x=0 and goes
-    clockwise.
+ 
+    Elevation angle measured from the z=0 plane. 
+    Azimuth angle from x=0 and goes clockwise.
 
     Args:
         az (:obj:`numpy array`): Azimuth angles in degrees.
@@ -68,17 +62,17 @@ def angles2xy(az,el):
         (xout (:obj:`numpy array`), yout (:obj:`numpy array`)): x and y coordinates.
    """
 
-    azt = (az)*np.pi/180.0
-    elt = 90-el
+    azt = np.radians(az)
+    elt = np.radians(90-el)
     xout = elt*np.sin(azt)
     yout = elt*np.cos(azt)
     
-    return (xout,yout)
+    return xout,yout
 
 
 def array2cart(Az,El):
-    """ This function will turn azimuth and elevation angles to X, Y and Z coordinates
-        assuming a unit sphere.
+    """ Converts azimuth and elevation angles to X, Y and Z coordinates
+        on a unit sphere.
 
     Args:
         Az (:obj:`numpy array`): Azimuth angles in degrees.
@@ -87,11 +81,14 @@ def array2cart(Az,El):
     Returns:
         (X (:obj:`numpy array`),  Y (:obj:`numpy array`), Z (:obj:`numpy array`)): x, y and z coordinates.
     """
-    d2r = np.pi/180.
-    X = np.cos(Az*d2r)*np.cos(El*d2r)
-    Y = np.sin(Az*d2r)*np.cos(El*d2r)
-    Z = np.sin(El*d2r)
-    return (X,Y,Z)
+    Az = np.radians(Az)
+    El = np.radians(El)
+    
+    X = np.cos(Az)*np.cos(El)
+    Y = np.sin(Az)*np.cos(El)
+    Z = np.sin(El)
+    
+    return X,Y,Z
     
 
 def cart2array(X,Y,Z):
@@ -106,11 +103,11 @@ def cart2array(X,Y,Z):
     Returns:
         (Az (:obj:`numpy array`), El (:obj:`numpy array`)): Azimuth and elevation angles in degrees.
     """
-    r2d = 180./np.pi
-    Az = np.arctan2(Y,X)*r2d
-    El = np.arcsin(Z)*r2d
+
+    Az = np.degrees(np.arctan2(Y,X))
+    El = np.degrees(np.arcsin(Z))
     
-    return (Az,El)
+    return Az,El
     
     
 def rotmatrix(Az_0,El_0):
@@ -127,11 +124,16 @@ def rotmatrix(Az_0,El_0):
     Return:
         rotmat (:obj:`numpy array`): A 3x3 rotation matrix.
     """
-    d2r = np.pi/180.
-    Az_0= Az_0*d2r
-    El_0 = El_0*d2r
-    R_Az = np.array([[np.cos(Az_0),-np.sin(Az_0),0.],[np.sin(Az_0),np.cos(Az_0),0.],[0.,0.,1.]])
-    R_El = np.array([[np.cos(El_0),0.,np.sin(El_0)],[0.,1.,0.],[-np.sin(El_0),0.,np.cos(El_0)]])
+
+    Az_0 = np.radians(Az_0)
+    El_0 = np.radians(El_0)
+    
+    R_Az = np.array([[np.cos(Az_0),-np.sin(Az_0),0.],
+                     [np.sin(Az_0),np.cos(Az_0),0.],
+                     [0.,0.,1.]])
+    R_El = np.array([[np.cos(El_0),0.,np.sin(El_0)],
+                     [0.,1.,0.],
+                     [-np.sin(El_0),0.,np.cos(El_0)]])
     
     return R_El.dot(R_Az)
     
@@ -339,6 +341,6 @@ def sommerfelderf(func,N,omega,a,b,exparams=()):
     fk = func(kn,*exparams)
     kmat = np.tile(kn[:,np.newaxis], (1,len(omega)))
     omegamat = np.tile(omega[np.newaxis,:], (len(kn),1))
-    Xk3 = (An*fk).dot(np.exp(-1j*kmat*omegamat)
+    Xk3 = (An*fk).dot(np.exp(-1j*kmat*omegamat))
 
     return Xk3*h*(b-a)/np.sqrt(np.pi)
