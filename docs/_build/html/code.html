@@ -1,0 +1,671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Physical Constants &#8212; ISRUtilities 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to ISRUtilities’s Documentation!" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to ISRUtilities’s Documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ISRUtilities 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-physConstants">
+<span id="physical-constants"></span><h1>Physical Constants<a class="headerlink" href="#module-physConstants" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">platform:</th><td class="field-body">Unix, Windows, Mac</td>
+</tr>
+<tr class="field-even field"><th class="field-name">synopsis:</th><td class="field-body">A set of physical constants that can be used by a bunch of different programs.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Variable Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>v_C_0</td>
+<td>Speed of light m/s.</td>
+</tr>
+<tr class="row-odd"><td>v_Boltz</td>
+<td>Boltzmans Const. J/K.</td>
+</tr>
+<tr class="row-even"><td>v_me</td>
+<td>Mass of electron in kg</td>
+</tr>
+<tr class="row-odd"><td>v_amu</td>
+<td>Mass of proton/neutron in kg.</td>
+</tr>
+<tr class="row-even"><td>v_electronradius</td>
+<td>Electron radius in m.</td>
+</tr>
+<tr class="row-odd"><td>v_electron_rcs</td>
+<td>Cross section of electon m^2.</td>
+</tr>
+<tr class="row-even"><td>v_epsilon0</td>
+<td>Vacuum permittivity.</td>
+</tr>
+<tr class="row-odd"><td>v_mu0</td>
+<td>Vacuum permeability.</td>
+</tr>
+<tr class="row-even"><td>v_elemcharge</td>
+<td>Elementary charge in mks units</td>
+</tr>
+<tr class="row-odd"><td>v_elemcharge_cgs</td>
+<td>Elementary charge in cgs units.</td>
+</tr>
+<tr class="row-even"><td>R_EARTH</td>
+<td>Radius of earth in km.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="math-utilities">
+<h1>Math Utilities<a class="headerlink" href="#math-utilities" title="Permalink to this headline">¶</a></h1>
+<p>This is a set of math utility functions that can be used for  ISR.</p>
+<span class="target" id="module-mathutils"></span><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">platform:</th><td class="field-body">Unix, Windows, Mac</td>
+</tr>
+<tr class="field-even field"><th class="field-name">synopsis:</th><td class="field-body">This module has various math functions that are not included in scipy or numpy.</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="mathutils.angles2xy">
+<code class="descclassname">mathutils.</code><code class="descname">angles2xy</code><span class="sig-paren">(</span><em>az</em>, <em>el</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.angles2xy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates x and y coordinates from az and el arrays.</p>
+<p>This function will take a numpy array of az and elevation angles in degrees and
+create the x, y locations projected on to the z=0 plane. It is assumed that the
+elevation angle is mesured from the z=0 plane. The az angle is from x=0 and goes
+clockwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>el</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(xout (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>), yout (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>)) &#8211; x and y coordinates.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.array2cart">
+<code class="descclassname">mathutils.</code><code class="descname">array2cart</code><span class="sig-paren">(</span><em>Az</em>, <em>El</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.array2cart" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>This function will turn azimuth and elevation angles to X, Y and Z coordinates</dt>
+<dd>assuming a unit sphere.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(X (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>),  Y (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>), Z (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>)) &#8211; x, y and z coordinates.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.cart2array">
+<code class="descclassname">mathutils.</code><code class="descname">cart2array</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Z</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.cart2array" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>This function will turn the X, Y and Z coordinate to azimuth and elevation angles</dt>
+<dd>assuming a unit sphere.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; x coordinates.</li>
+<li><strong>Y</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; y coordinates.</li>
+<li><strong>Z</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; z coordinates.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(Az (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>), El (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>)) &#8211; Azimuth and elevation angles in degrees.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.chirpz">
+<code class="descclassname">mathutils.</code><code class="descname">chirpz</code><span class="sig-paren">(</span><em>Xn</em>, <em>A</em>, <em>W</em>, <em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.chirpz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chirpz calculation for a single array.</p>
+<p>This function calculates the chirpz transfrom for the numpy array Xn given the
+complex constants A and W along with the length of the final array M.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Xn</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The signal that the Chirp z transform will be calculated for.</li>
+<li><strong>A</strong> (<code class="xref py py-obj docutils literal"><span class="pre">complex</span></code>) &#8211; A complex constant used to determine the direction of the integration in Z.</li>
+<li><strong>W</strong> (<code class="xref py py-obj docutils literal"><span class="pre">complex</span></code>) &#8211; Another complex constant that will determine the direction of the integration in Z.</li>
+<li><strong>M</strong> (<em>int</em>) &#8211; The length of the final chirpz transfrom.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">yk (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The M length chirp z tranfrom given Xn and the complex constants.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.diric">
+<code class="descclassname">mathutils.</code><code class="descname">diric</code><span class="sig-paren">(</span><em>x</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.diric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Based on octave-signal v. 1.10 diric. Jitted for up to 2x speedup in this case, and demo of Numba 0.17</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Michael Hirsch</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mathutils.jinc">
+<code class="descclassname">mathutils.</code><code class="descname">jinc</code><a class="headerlink" href="#mathutils.jinc" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will output a jinc function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Time array in seconds.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">outdata (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Jinc(t)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.rotcoords">
+<code class="descclassname">mathutils.</code><code class="descname">rotcoords</code><span class="sig-paren">(</span><em>Az</em>, <em>El</em>, <em>Az_0</em>, <em>El_0</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.rotcoords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies rotation matrix to Az and El arrays.</p>
+<p>This function will rotate the Az and Elevation cordinates given offset
+angles. This will use a rotation matrix after the angles have been
+changed to Cartisian coordinates assuming a unit sphere.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth rotation angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation rotation angle in degrees.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(Az_out (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>), El_out (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>)) &#8211; Rotated azimuth and elevation angles in degrees.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.rotmatrix">
+<code class="descclassname">mathutils.</code><code class="descname">rotmatrix</code><span class="sig-paren">(</span><em>Az_0</em>, <em>El_0</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.rotmatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a rotation matrix.</p>
+<p>This creates a rotation matrix for the rotcoords function. First rotate
+about the z axis and then rotate about the new y axis
+<a class="reference external" href="http://www.agi.com/resources/help/online/stk/11.0/index.htm#comm/CommRadar03-03.htm">http://www.agi.com/resources/help/online/stk/11.0/index.htm#comm/CommRadar03-03.htm</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth rotation angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation rotation angle in degrees.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">rotmat (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; A 3x3 rotation matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.sommerfeldchirpz">
+<code class="descclassname">mathutils.</code><code class="descname">sommerfeldchirpz</code><span class="sig-paren">(</span><em>func</em>, <em>N</em>, <em>M</em>, <em>dk</em>, <em>Lmax=1</em>, <em>errF=0.1</em>, <em>a=-1j</em>, <em>p=1.0</em>, <em>x0=None</em>, <em>exparams=()</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.sommerfeldchirpz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Numerically integrate Sommerfeld like integral using chirpz.</p>
+<p>This function will numerically integrate a Sommerfeld like integral, int(exp(awk)f(k),t=0..inf)
+using at most Lmax number of N length chirpz transforms to make an M length
+array. If the normalized difference between the previous estimate of the output Xk is
+less then the parameter errF then the loop stops and a flag that represents convergence is set to true.
+A number of repeats are also output as well. This technique is based off the article
+Li et. al Adaptive evaluation of the Sommerfeld-type integral using the chirp z-transform, 1991.
+This function also uses a modified Simpsons rule for integration found in Milla PhD Thesis (2010).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>func</strong> (<em>func</em>) &#8211; A function that is used to create f(k).</li>
+<li><strong>N</strong> (<em>int</em>) &#8211; The length of the chirp z transform used.</li>
+<li><strong>M</strong> (<em>int</em>) &#8211; The length of the output array.</li>
+<li><strong>dk</strong> (<em>float</em>) &#8211; The sample period of k.</li>
+<li><strong>Lmax</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>, optional) &#8211; default 1, The maximum number of repeats of the integration before the loop finishes.</li>
+<li><strong>errF</strong> (<code class="xref py py-obj docutils literal"><span class="pre">float</span></code>, optional) &#8211; default .1, The threshold of the normalized difference between the new iteration and the old to stop to stop the iteration.</li>
+<li><strong>a</strong> (<code class="xref py py-obj docutils literal"><span class="pre">complex</span></code>, optional) &#8211; default -1.0*1j, A complex number that determines the trejectory of the integration on the z plane.</li>
+<li><strong>p</strong> (<code class="xref py py-obj docutils literal"><span class="pre">float</span></code>, optional) &#8211; default 1.0, A real number that helps to define the spacing on the omega plane.</li>
+<li><strong>x0</strong> (<code class="xref py py-obj docutils literal"><span class="pre">complex</span></code>, optional) &#8211; default p*np.pi/dk, The starting point on the omega plane.</li>
+<li><strong>exparams</strong> (<code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code>, optional) &#8211; default (), Any extra params other then k to create f(k).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(Xk (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>),flag_c (bool),irep (int)) &#8211; The integrated data that is of length M.
+A convergence flag. The number of repetitions until convergence.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.sommerfelderf">
+<code class="descclassname">mathutils.</code><code class="descname">sommerfelderf</code><span class="sig-paren">(</span><em>func</em>, <em>N</em>, <em>omega</em>, <em>a</em>, <em>b</em>, <em>exparams=()</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.sommerfelderf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrate somerfeld integral using ERF transform for single portion.</p>
+<p>This function will numerically integrate a Sommerfeld like integral, int(exp(-jwk)f(k),k=a..b)
+using the ERF transform and 2N+1 samples. This technique is from the paper B. L. Ooi 2007.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>func</strong> (<em>func</em>) &#8211; A function that is used to create f(k).</li>
+<li><strong>N</strong> (<em>int</em>) &#8211; The integration uses 2N+1 samples to do the integration.</li>
+<li><strong>omega</strong> &#8211; The Frequency array in radians per second.</li>
+<li><strong>a</strong> (<em>float</em>) &#8211; Lower bound of the integral.</li>
+<li><strong>b</strong> (<em>float</em>) &#8211; Upper bound of teh integral.</li>
+<li><strong>exparams</strong> (<code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code>, optional) &#8211; default (), Any extra params other then k to create f(k).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Xk (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The integrated data that is the same length as omega.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mathutils.sommerfelderfrep">
+<code class="descclassname">mathutils.</code><code class="descname">sommerfelderfrep</code><span class="sig-paren">(</span><em>func</em>, <em>N</em>, <em>omega</em>, <em>b1</em>, <em>Lmax=1</em>, <em>errF=0.1</em>, <em>exparams=()</em><span class="sig-paren">)</span><a class="headerlink" href="#mathutils.sommerfelderfrep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Numerically integrate Sommerfeld like integral using erf transform function loop.</p>
+<p>This function will numerically integrate a Sommerfeld like integral, int(exp(-jwk)f(k),k=0..inf)
+using the ERF transform and 2N+1 samples and at most Lmax loops. If the normalized difference
+between the previous estimate of the output Xk is less then the parameter errF then the loop stops
+and a flag that represents convergence is set to true. A number of loops is also output as well.
+This function uses sommerfelderf to do the integration</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>func</strong> (<em>func</em>) &#8211; A function that is used to create f(k).</li>
+<li><strong>N</strong> (<em>int</em>) &#8211; The integration uses 2N+1 samples to do the integration.</li>
+<li><strong>omega</strong> (<em>float</em>) &#8211; The Frequency array in radians per second.</li>
+<li><strong>b1</strong> (<em>int</em>) &#8211; The inital bounds of the first try and then step size for each subsiquent integral.</li>
+<li><strong>Lmax</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>, optional) &#8211; default 1, The maximum number of repeats of the integration before the loop finishes.</li>
+<li><strong>errF</strong> (<code class="xref py py-obj docutils literal"><span class="pre">float</span></code>, optional) &#8211; default .1, The threshold of the normalized difference between the new
+iteration and the old to stop to stop the iteration.</li>
+<li><strong>exparams</strong> (<code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code>, optional) &#8211; default (), Any extra params other then k to create f(k).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(Xk (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>),flag_c (bool),irep (int)) &#8211; The integrated data that is of length M.
+A convergence flag. The number of repetitions until convergence.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="sensor-constants">
+<h1>Sensor Constants<a class="headerlink" href="#sensor-constants" title="Permalink to this headline">¶</a></h1>
+<p>This will create a set of sensor constants depending on an input string.</p>
+<span class="target" id="module-sensorConstants"></span><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">platform:</th><td class="field-body">Unix, Windows, Mac</td>
+</tr>
+<tr class="field-even field"><th class="field-name">synopsis:</th><td class="field-body">Gets a ISR sensor constants and calculates theoretical beam patterns.</td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="sensorConstants.AMISR_Pattern">
+<code class="descclassname">sensorConstants.</code><code class="descname">AMISR_Pattern</code><span class="sig-paren">(</span><em>AZ</em>, <em>EL</em>, <em>Az0</em>, <em>El0</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.AMISR_Pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the AMISR pattern in the direction of the array face.</p>
+<p>This function will create an idealized antenna pattern for the AMISR array. The pattern is not normalized. The antenna is assumed to made of a grid of ideal cross dipole
+elements. In the array every other column is shifted by 1/2 dy. The
+parameters are taken from the AMISR spec and the method for calculating
+the field is derived from a report by Adam R. Wichman.
+The inputs for the az and el coordinates can be either an array or
+scalar. If both are arrays they must be the same shape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth pointing angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation pointing angle in degrees.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Patout (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The normalized radiation density.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.AMISR_Patternadj">
+<code class="descclassname">sensorConstants.</code><code class="descname">AMISR_Patternadj</code><span class="sig-paren">(</span><em>Az</em>, <em>El</em>, <em>Az0</em>, <em>El0</em>, <em>Angleoffset</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.AMISR_Patternadj" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will call AMISR beam patern function after it rotates the coordinates
+given the offset of the phased array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth pointing angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation pointing angle in degrees.</li>
+<li><strong>Angleoffset</strong> (<em>list</em>) &#8211; A 2 element list holding the offset of the face of the array
+from north.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Beam_Pattern (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The relative beam pattern from the azimuth points.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.Circ_Ant_Pattern">
+<code class="descclassname">sensorConstants.</code><code class="descname">Circ_Ant_Pattern</code><span class="sig-paren">(</span><em>EL</em>, <em>r</em>, <em>lamb</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.Circ_Ant_Pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the pattern for a circular dish antenna.</p>
+<p>This function will create an idealized antenna pattern for a circular antenna
+array. The pattern is not normalized.
+The antenna is assumed to made of a grid of ideal cross dipole
+elements. In the array every other column is shifted by 1/2 dy. The
+parameters are taken from the AMISR spec and the method for calculating
+the field is derived from a report by Adam R. Wichman.
+The inputs for the az and el coordinates can be either an array or
+scalar. If both are arrays they must be the same shape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>EL</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The elevation coordinates in radians. Vertical is at zero radians.</li>
+<li><strong>r</strong> (<em>float</em>) &#8211; Radius of the antenna in meters.</li>
+<li><strong>lamb</strong> (<em>float</em>) &#8211; wavelength of radiation in meters.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Patout (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The normalized radiation density.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.Millstone_Pattern">
+<code class="descclassname">sensorConstants.</code><code class="descname">Millstone_Pattern</code><span class="sig-paren">(</span><em>Az</em>, <em>El</em>, <em>Az0</em>, <em>El0</em>, <em>Angleoffset</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.Millstone_Pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the ideal antenna pattern for the MISA dish at Milstone hill.</p>
+<p>This function will call circular antenna beam patern function after it
+rotates the coordinates given the pointing direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth pointing angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation pointing angle in degrees.</li>
+<li><strong>Angleoffset</strong> (<em>list</em>) &#8211; A 2 element list holding the offset of the face of the array
+from north.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Beam_Pattern (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The relative beam pattern from the azimuth points.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.Sond_Pattern">
+<code class="descclassname">sensorConstants.</code><code class="descname">Sond_Pattern</code><span class="sig-paren">(</span><em>Az</em>, <em>El</em>, <em>Az0</em>, <em>El0</em>, <em>Angleoffset</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.Sond_Pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the ideal antenna pattern for the Sondestrom radar.</p>
+<p>This function will call circular antenna beam patern function after it
+rotates the coordinates given the pointing direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Az</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Azimuth angles in degrees.</li>
+<li><strong>El</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Elevation angles in degrees.</li>
+<li><strong>Az_0</strong> (<em>float</em>) &#8211; The azimuth pointing angle in degrees.</li>
+<li><strong>El_0</strong> (<em>float</em>) &#8211; The elevation pointing angle in degrees.</li>
+<li><strong>Angleoffset</strong> (<em>list</em>) &#8211; A 2 element list holding the offset of the face of the array
+from north.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Beam_Pattern (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; The relative beam pattern from the azimuth points.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.getConst">
+<code class="descclassname">sensorConstants.</code><code class="descname">getConst</code><span class="sig-paren">(</span><em>typestr</em>, <em>angles=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.getConst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the constants associated with a specific radar system. This will fill
+out a dictionary with all of the parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>type</strong> (<em>str</em>) &#8211; Name of the radar system.</li>
+<li><strong>angles</strong> (<code class="xref py py-obj docutils literal"><span class="pre">numpy</span> <span class="pre">array</span></code>) &#8211; Nx2 array where each row is an az, el pair in degrees.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p><em>sensdict (dict[str, obj])</em> &#8211;</p>
+<p>Holds the different sensor constants.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+        <span class="s1">&#39;Name&#39;</span><span class="p">:</span> <span class="n">radar</span> <span class="n">name</span><span class="p">,</span>
+        <span class="s1">&#39;Pt&#39;</span><span class="p">:</span> <span class="n">Transmit</span> <span class="n">power</span> <span class="ow">in</span> <span class="n">W</span><span class="p">,</span>
+        <span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="n">wave</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">rad</span><span class="o">/</span><span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;lamb&#39;</span><span class="p">:</span> <span class="n">Wave</span> <span class="n">length</span> <span class="ow">in</span> <span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;fc&#39;</span><span class="p">:</span> <span class="n">Carrier</span> <span class="n">Frequency</span> <span class="ow">in</span> <span class="n">Hz</span><span class="p">,</span>
+        <span class="s1">&#39;fs&#39;</span><span class="p">:</span> <span class="n">Sampling</span> <span class="n">frequency</span> <span class="ow">in</span> <span class="n">Hz</span><span class="p">,</span>
+        <span class="s1">&#39;taurg&#39;</span><span class="p">:</span> <span class="n">Pulse</span> <span class="n">length</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span><span class="p">,</span>
+        <span class="s1">&#39;Tsys&#39;</span><span class="p">:</span> <span class="n">System</span> <span class="n">Temperature</span> <span class="ow">in</span> <span class="n">K</span><span class="p">,</span>
+        <span class="s1">&#39;BeamWidth&#39;</span><span class="p">:</span> <span class="n">Tuple</span> <span class="n">of</span> <span class="n">beamwidths</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">,</span>
+        <span class="s1">&#39;Ksys&#39;</span><span class="p">:</span> <span class="p">,</span>
+        <span class="s1">&#39;BandWidth&#39;</span><span class="p">:</span> <span class="n">Filter</span> <span class="n">bandwidth</span> <span class="ow">in</span> <span class="n">Hz</span><span class="p">,</span>
+        <span class="s1">&#39;Angleoffset&#39;</span><span class="p">:</span> <span class="n">Tuple</span> <span class="n">of</span> <span class="n">angle</span> <span class="n">offset</span><span class="p">,</span>
+        <span class="s1">&#39;ArrayFunc&#39;</span><span class="p">:</span> <span class="n">Function</span> <span class="n">to</span> <span class="n">calculate</span> <span class="n">antenna</span> <span class="n">pattern</span><span class="p">,</span>
+        <span class="s1">&#39;t_s&#39;</span><span class="p">:</span> <span class="n">Sampling</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">s</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sensorConstants.get_files">
+<code class="descclassname">sensorConstants.</code><code class="descname">get_files</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="headerlink" href="#sensorConstants.get_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the hdf5 files associated with the radar.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<em>str</em>) &#8211; Name for the radar.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>newpath (str)</em> &#8211; String holding the location for the file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Physical Constants</a></li>
+<li><a class="reference internal" href="#math-utilities">Math Utilities</a></li>
+<li><a class="reference internal" href="#sensor-constants">Sensor Constants</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to ISRUtilities&#8217;s Documentation!</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/code.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to ISRUtilities’s Documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ISRUtilities 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, John Swoboda.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
