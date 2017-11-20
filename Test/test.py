@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import numpy.testing as npt
 import isrutilities.mathutils as isrmath
 
