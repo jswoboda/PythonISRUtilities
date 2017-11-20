@@ -1,6 +1,0 @@
-setuptools
-nose
-numpy
-scipy
-pytables
-pathlib2
