@@ -1,20 +1,17 @@
 #!/usr/bin/env python
-import subprocess
-from setuptools import setup
+req = ['nose','numpy','scipy','tables','pathlib2']
 
-try:
-    subprocess.call(['conda','install','--yes','--file','requirements.txt'])
-except Exception as e:
-    pass
-
+from setuptools import setup, find_packages
 
 config = {
     'description': 'ISR constants',
     'author': 'John Swoboda',
     'url': 'https://github.com/jswoboda/PythonISRUtilities.git',
     'version': '1',
-    'packages': ['isrutilities'],
-    'name':      'isrutilities'
+    'install_requires': req,
+    'packages': find_packages(),
+    'name':     'isrutilities',
+    'python_requires': '>=2.7',
 }
 
 setup(**config)

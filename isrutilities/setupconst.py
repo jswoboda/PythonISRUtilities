@@ -9,9 +9,9 @@ This script is here to create the h5 files for the ISR systems
 
 import os
 import numpy as np
-from isrutilities import Path
-from isrutilities.mathutils import angles2xy
-import isrutilities.physConstants as Const
+from . import Path
+from .mathutils import angles2xy
+import .physConstants as Const
 from scipy.interpolate import griddata
 
 

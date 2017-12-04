@@ -5,14 +5,14 @@
 
 .. moduleauthor:: John Swoboda <swoboj@bu.edu>
 """
-from isrutilities import Path
+from . import Path
 import tables
 import numpy as np
 from scipy.interpolate import griddata
 import scipy as sp
 #
-from mathutils import diric, angles2xy, jinc, rotcoords
-from physConstants import v_C_0
+from .mathutils import diric, angles2xy, jinc, rotcoords
+from .physConstants import v_C_0
 ## Parameters for Sensor
 #AMISR = {'Name':'AMISR','Pt':2e6,'k':9.4,'G':10**4.3,'lamb':0.6677,'fc':449e6,'fs':50e3,\
 #    'taurg':14,'Tsys':120,'BeamWidth':(2,2)}
