@@ -9,6 +9,7 @@ This script is here to create the h5 files for the ISR systems
 
 import os
 import numpy as np
+import yaml
 from . import Path
 from .mathutils import angles2xy
 import .physConstants as Const
@@ -34,15 +35,15 @@ if __name__ == "__main__":
         filepath, fext = os.path.splitext(curfile)
         with tables.open_file(curfile) as f:
             # get the tx power for RISR
-            txpowR = f.get_node('/Tx/Power').read()[0,0]
+            txpowR = float(f.get_node('/Tx/Power').read()[0,0])
             # get freq 1 for RISR
-            txfreqR = f.get_node('/Tx/Frequency').read()[0,0]
+            txfreqR = float(f.get_node('/Tx/Frequency').read()[0,0])
             # get cal temp
         #    caltempR = f.getNode('/Rx/CalTemp').read()
             # get bandwidth
-            bandwidthR = f.get_node('/Rx/Bandwidth').read()
+            bandwidthR = float(f.get_node('/Rx/Bandwidth').read())
             # sample time
-            sampletimeR = f.get_node('/Rx/SampleTime').read()
+            sampletimeR = float(f.get_node('/Rx/SampleTime').read())
             # angle offset
 
             beamcodemapR = f.get_node('/Setup/BeamcodeMap').read()
