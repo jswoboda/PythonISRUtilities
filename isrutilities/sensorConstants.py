@@ -59,7 +59,7 @@ def getConst(typestr,angles = None):
         h5filename = dirname/'Millstone_PARAMS.h5'
     elif typestr.lower() == 'millstonez':
         arrayfunc = Millstone_Pattern_Z
-        h5filename = dirname/'Millstone_PARAMS.h5'
+        h5filename = dirname/'Millstonez_PARAMS.h5'
     elif typestr.lower() == 'sondrestrom':
         arrayfunc = Sond_Pattern
         h5filename = dirname/'Sondrestrom_PARAMS.h5'

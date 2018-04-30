@@ -10,9 +10,9 @@ This script is here to create the h5 files for the ISR systems
 import os
 import numpy as np
 import yaml
-from . import Path
-from .mathutils import angles2xy
-import .physConstants as Const
+from isrutilities import Path
+from mathutils import angles2xy
+import physConstants as Const
 from scipy.interpolate import griddata
 
 
@@ -187,14 +187,12 @@ if __name__ == "__main__":
 
     #%% Set up Millstone parameters
 
-    # get the tx power for Sondrestrom
+    # set the tx power for Millstone
     txpowP = 2.5e6
-    # get freq 1 for Sondrestrom
+    # set freq 1 for Millstone
     txfreqP = 4.4e8
-    # get cal temp
-    #hard code in because Sondrestrom example is 3x to high
+    # set cal temp
     caltempP = 120.
-#    caltempP = h5file.getNode('/Rx/CalTemp').read()
     # get bandwidth
     bandwidthP = 50e3
     # sample time
@@ -220,6 +218,50 @@ if __name__ == "__main__":
 
     #%% Write Millstone parameters
     millfile = str(dirname.joinpath('Millstone_PARAMS.h5'))
+    with tables.open_file(millfile, mode='w', title='Millstone Parameters') as h5fileout:
+        fgroup = h5fileout.create_group('/','Params','Parameters')
+
+        h5fileout.create_array(fgroup, 'Frequency', txfreqP)
+        h5fileout.create_array(fgroup, 'Power', txpowP)
+        h5fileout.create_array(fgroup, 'Kmat', beamcodemapP)
+        h5fileout.create_array(fgroup,'Systemp',caltempP)
+        h5fileout.create_array(fgroup,'Bandwidth',bandwidthP)
+        h5fileout.create_array(fgroup,'Sampletime',sampletimeP)
+        h5fileout.create_array(fgroup,'Angleoffset',angoffP)
+
+    #%% Set up Millstone parameters
+
+    # set the tx power for Millstone
+    txpowP = 2.5e6
+    # set freq 1 for Millstone
+    txfreqP = 4.4e8
+    # set cal temp
+    caltempP = 120.
+    # get bandwidth
+    bandwidthP = 50e3
+    # sample time
+    sampletimeP = 1./50e3
+    # angle offset
+
+    #MISA gain is 42.5 dB and Zenith is 45.5
+    G = np.power(10,4.55)
+    lam =  0.6813464954545455
+    ksysc = G*lam**2*Const.v_C_0*Const.v_electronradius**2/2./4**2/np.pi**2
+    # angle offset
+    angoffP = np.array([0.0,0.0])
+
+    azvec = np.linspace(0.,360.,361)
+    elvec = np.linspace(25.,89,65)
+    (azmat,elmat) = np.meshgrid(azvec,elvec)
+    azflat = np.append(azmat.flatten(),0.)
+    elflat = np.append(elmat.flatten(),90.)
+    ksysout = ksysc*np.ones_like(azflat)
+
+    beamcodemapP = np.column_stack((np.arange(azflat.size),azflat,elflat,ksysout))
+
+
+    #%% Write Millstone parameters
+    millfile = str(dirname.joinpath('Millstonez_PARAMS.h5'))
     with tables.open_file(millfile, mode='w', title='Millstone Parameters') as h5fileout:
         fgroup = h5fileout.create_group('/','Params','Parameters')
 
